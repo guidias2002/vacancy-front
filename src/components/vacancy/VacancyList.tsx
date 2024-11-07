@@ -1,0 +1,37 @@
+import { useEffect, useState } from "react";
+import { Vacancy } from "../../types/VacancyData";
+import axios from "axios";
+import VacancyCard from "./VacancyCard";
+import { CircularProgress } from "@mui/material";
+import '../../styles/VacancyList.css';
+
+
+const VacancyList: React.FC = () => {
+    const [vacancies, setVacancies] = useState<Vacancy[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
+  
+    useEffect(() => {
+      axios.get<Vacancy[]>('http://localhost:8080/vacancy/getAll')
+        .then(response => {
+          setVacancies(response.data);
+        })
+        .catch(error => {
+          console.error("Erro ao buscar vagas:", error);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }, []);
+  
+    if (loading) return <CircularProgress size={24} />;
+  
+    return (
+      <div className="vacancy-list">
+        {vacancies.map(vacancy => (
+          <VacancyCard key={vacancy.id} vacancy={vacancy} />
+        ))}
+      </div>
+    );
+  };
+  
+  export default VacancyList;
