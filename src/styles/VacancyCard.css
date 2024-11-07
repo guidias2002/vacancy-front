@@ -1,0 +1,58 @@
+.vacancy-card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #e0e0e0;
+    border-radius: 14px;
+    padding: 16px;
+    background-color: #fff;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+.vacancy-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.company-name {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.badge {
+    background-color: #00529b;
+    color: #fff;
+    padding: 4px 8px;
+    font-size: 12px;
+    border-radius: 4px;
+}
+
+.job-title {
+    font-size: 18px;
+    margin: 8px 0;
+    color: #333;
+}
+
+.details {
+    display: flex;
+    flex: auto;
+    gap: 10px;
+    margin-top: 8px;
+    font-size: 14px;
+    color: #666;
+}
+
+.details>div {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.published-date {
+    font-size: 14px;
+    color: #999;
+    margin-top: 12px;
+}
