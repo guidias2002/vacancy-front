@@ -1,5 +1,5 @@
-import { Alert, Box, Button, IconButton, InputAdornment, Snackbar, TextField, Typography } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
+import { Alert, Box, Button, CircularProgress, Divider, IconButton, InputAdornment, Snackbar, TextField, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 import { useCandidateRegisterForm } from '../../hooks/useCandidateRegisterForm';
@@ -24,10 +24,27 @@ const CandidateRegistrationForm: React.FC = () => {
   };
 
   return (
-    <Box sx={{ maxWidth: 400, mx: 'auto', mt: 5 }}>
-      <Typography variant="h4" align="center" gutterBottom>
-        Cadastro de Candidato
+    <Box sx={{ maxWidth: 350, mx: 'auto', mt: 5 }}>
+
+      <Typography sx={{ mb: 2 }} variant="h5" align="left">
+        Bem-vindos à VagasConnect
       </Typography>
+
+      <Typography sx={{ mb: 2 }} align="left">
+        Já tem conta? {' '}
+        <Typography
+          component={Link}
+          to="/login"
+          color="success"
+          sx={{
+            textDecoration: 'underline',
+          }}>
+          Acessar conta
+        </Typography>
+      </Typography>
+
+      <Divider />
+
       <form onSubmit={handleSubmit} noValidate>
         <TextField
           fullWidth
@@ -36,9 +53,9 @@ const CandidateRegistrationForm: React.FC = () => {
           name="name"
           value={formData.name}
           onChange={handleChange}
-          required
           error={!!errors.name}
           helperText={errors.name}
+          color="success"
         />
         <TextField
           fullWidth
@@ -47,9 +64,9 @@ const CandidateRegistrationForm: React.FC = () => {
           name="login"
           value={formData.login}
           onChange={handleChange}
-          required
           error={!!errors.login}
           helperText={errors.login}
+          color="success"
         />
         <TextField
           fullWidth
@@ -59,9 +76,9 @@ const CandidateRegistrationForm: React.FC = () => {
           type={showPassword ? 'text' : 'password'}
           value={formData.password}
           onChange={handleChange}
-          required
           error={!!errors.password}
           helperText={errors.password}
+          color="success"
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
@@ -80,30 +97,22 @@ const CandidateRegistrationForm: React.FC = () => {
           type="email"
           value={formData.email}
           onChange={handleChange}
-          required
           error={!!errors.email}
           helperText={errors.email}
+          color="success"
         />
         <Button
           fullWidth
           variant="contained"
-          color="primary"
+          color="success"
           type="submit"
           disabled={loading}
-          sx={{ mb: 2 }}
+          sx={{ mt: 1 }}
         >
-          {loading ? 'Cadastrando...' : 'Cadastrar'}
-        </Button>
-        <Button
-          fullWidth
-          variant="outlined"
-          color="primary"
-          component={RouterLink}
-          to="/login"
-        >
-          Já tenho perfil
+          {loading ? <CircularProgress size={24} /> : 'Cadastrar'}
         </Button>
       </form>
+
       <Snackbar
         open={successMessageOpen}
         autoHideDuration={3000}
