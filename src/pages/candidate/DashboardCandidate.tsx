@@ -1,7 +1,9 @@
+import SidebarCandidate from "../../components/SidebarCandidate";
+
 const DashboardCandidate = () => {
 
     return(
-        <h1>Dashboard candidate</h1>
+        <SidebarCandidate/>
     ) 
 }
 
