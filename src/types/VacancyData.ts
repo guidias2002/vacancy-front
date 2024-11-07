@@ -8,5 +8,6 @@ export interface Vacancy {
     description: string;
     enterpriseId: number;
     createdAt: string;
+    location: string;
 }
   
