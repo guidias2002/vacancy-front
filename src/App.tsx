@@ -7,6 +7,8 @@ import ProtectedRoute from './context/ProtectedRoute'
 import ProfilePageCandidate from './pages/candidate/ProfilePageCandidate'
 import VacancyPageCandidate from './pages/candidate/VacancyPageCandidate'
 import ApplicationsPageCandidate from './pages/candidate/ApplicationsPageCandidate'
+import VacancyDetailsPageCandidate from './pages/candidate/VacancyDetailsPageCandidate'
+
 
 function App() {
   const routes = [
@@ -16,6 +18,7 @@ function App() {
     { path: '/dashboard-candidate', component: <DashboardCandidate />, protected: true },
     { path: '/profile-candidate', component: <ProfilePageCandidate />, protected: true },
     { path: '/vacancy', component: <VacancyPageCandidate />, protected: true },
+    { path: '/vacancy/:id', component: <VacancyDetailsPageCandidate />, protected: true },
     { path: '/my-applications', component: <ApplicationsPageCandidate />, protected: true },
   ];
 
