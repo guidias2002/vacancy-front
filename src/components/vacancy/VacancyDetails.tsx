@@ -39,45 +39,75 @@ const VacancyDetails = () => {
     }
 
     return (
-        <section className="main-section">
-            <div>
+        <main>
 
-                <h1>{vacancie.title}</h1>
-                <div className="vacancy-details">
-                    <div className="modality-details">
-                        <RiComputerFill /> <span>{vacancie.modality}</span>
+            <section className="main-section">
+                <div>
+
+                    <h1>{vacancie.title}</h1>
+                    <div className="vacancy-details">
+                        <div className="modality-details">
+                            <RiComputerFill /> <span>{vacancie.modality}</span>
+                        </div>
+                        <div className="level-details">
+                            <FaBriefcase /> <span>{vacancie.level}</span>
+                        </div>
+                        <div className="location-details">
+                            <FaLocationDot /> <span>{vacancie.location}</span>
+                        </div>
+                        <div className="remuneration-details">
+                            <FaMoneyBill /> <span>{vacancie.remuneration}</span>
+                        </div>
                     </div>
-                    <div className="level-details">
-                        <FaBriefcase /> <span>{vacancie.level}</span>
+
+                    <div>
+                        <p>Empresa</p>
+                        <p>{vacancie.name_enterprise}</p>
                     </div>
-                    <div className="location-details">
-                        <FaLocationDot /> <span>{vacancie.location}</span>
+
+                    <div>
+                        <p>Publicada</p>
+                        <p>{new Date(vacancie.createdAt).toLocaleDateString('pt-BR')}</p>
                     </div>
-                    <div className="remuneration-details">
-                        <FaMoneyBill /> <span>{vacancie.remuneration}</span>
+
+                    <div>
+                        <p>Descrição</p>
+                        <p>{vacancie.description}</p>
                     </div>
+
+                    {candidateId && (
+                        <ButtonCandidacy vacancyId={id || ""} candidateId={candidateId} />
+                    )}
+                </div>
+            </section>
+
+            <section className="more-information">
+                <div>
+                    <h3>Responsabilidades e atribuições</h3>
+                    {vacancie.responsibilities.map((item, index) => (
+                        <p key={index}>{item};</p>
+                    ))}
                 </div>
 
                 <div>
-                    <p>Empresa</p>
-                    <p>{vacancie.name_enterprise}</p>
+                    <h3>Requisitos e Qualificações</h3>
+                    {vacancie.requirements.map((item, index) => (
+                        <p key={index}>{item};</p>
+                    ))}
                 </div>
 
                 <div>
-                    <p>Publicada</p>
-                    <p>{new Date(vacancie.createdAt).toLocaleDateString('pt-BR')}</p>
-                </div>
-
-                <div>
-                    <p>Descrição</p>
-                    <p>{vacancie.description}</p>
+                    <h3>Informações adicionais</h3>
+                    {vacancie.additionalInformation.map((item, index) => (
+                        <p key={index}>{item};</p>
+                    ))}
                 </div>
 
                 {candidateId && (
                     <ButtonCandidacy vacancyId={id || ""} candidateId={candidateId} />
                 )}
-            </div>
-        </section>
+            </section>
+        </main>
 
 
     )

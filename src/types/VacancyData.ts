@@ -9,5 +9,8 @@ export interface Vacancy {
     enterpriseId: number;
     createdAt: string;
     location: string;
+    responsibilities: string[];
+    requirements: string[];
+    additionalInformation: string[];
 }
   
