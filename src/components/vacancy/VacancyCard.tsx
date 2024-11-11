@@ -14,7 +14,7 @@ interface VacancyCardProps {
 
 const VacancyCard: React.FC<VacancyCardProps> = ({ vacancy }) => {
   return (
-    <Link to={`/vacancy/${vacancy.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+    <Link to={`/vacancy/${vacancy.id}`} style={{ textDecoration: 'none', color: 'inherit', height: '250px' }}>
       <div className="vacancy-card">
         <div className="vacancy-card-header">
           <p className="company-name">{vacancy.name_enterprise}</p>

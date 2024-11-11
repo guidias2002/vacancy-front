@@ -44,7 +44,7 @@ const VacancyDetails = () => {
             <section className="main-section">
                 <div>
 
-                    <h1>{vacancie.title}</h1>
+                    <h1 className="title-vacancy">{vacancie.title}</h1>
                     <div className="vacancy-details">
                         <div className="modality-details">
                             <RiComputerFill /> <span>{vacancie.modality}</span>

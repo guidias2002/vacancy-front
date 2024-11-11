@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { Application } from "../../types/ApplicationData";
 import axios from "axios";
-import CandidateApplications from "./CandidateApplication";
+import CandidationApplication from "./CandidationApplication";
+
+import '../../styles/CandidationApplicationList.css';
 
 const CandidateApplicationList: React.FC = () => {
   const [applications, setApplications] = useState<Application[]>([]);
@@ -33,7 +35,7 @@ const CandidateApplicationList: React.FC = () => {
   return (
     <div className="application-list"> 
       {applications.map(application => (
-        <CandidateApplications key={application.id} application={application} />
+        <CandidationApplication key={application.id} application={application} />
       ))}
     </div>
   );
