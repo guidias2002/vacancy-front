@@ -6,34 +6,23 @@
     padding: 16px;
     background-color: #fff;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    height: 250px;
-    width: 100%;
     box-sizing: border-box;
+    height: 250px;
 }
 
-.vacancy-card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.company-name {
-    font-weight: bold;
-    font-size: 14px;
-}
-
-.badge {
-    background-color: #00529b;
-    color: #fff;
-    padding: 4px 8px;
-    font-size: 12px;
-    border-radius: 4px;
+.vacancy-card-header, .details {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; 
 }
 
 .job-title {
     font-size: 18px;
     margin: 8px 0;
     color: #333;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .details {
@@ -46,18 +35,27 @@
     margin-bottom: 12px;
 }
 
-.details>div {
+.details > div {
     display: flex;
     align-items: center;
     gap: 4px;
-}
-
-.details svg {
-    color: #87aa68;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .published-date {
     font-size: 14px;
     color: #999;
     margin-top: auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
+
+
+.details svg {
+    color: #87aa68;
+}
+
+

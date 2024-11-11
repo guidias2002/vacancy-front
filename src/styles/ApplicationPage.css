@@ -1,4 +1,6 @@
 .application-page {
     display: flex;
+    align-items: start;
     height: 100vh;
+    background-color: #f9f9f9;
 }
