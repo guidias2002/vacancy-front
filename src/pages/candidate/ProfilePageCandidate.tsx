@@ -1,12 +1,14 @@
-import AboutMeForm from "../../components/aboutCandidate/AboutMe";
+import Curriculum from "../../components/Curriculum";
 import SidebarCandidate from "../../components/SidebarCandidate";
+
+import '../../styles/ProfilePageCandidate.css';
 
 const ProfilePageCandidate = () => {
 
     return (
-        <div>
+        <div className="main-profile-page">
             <SidebarCandidate/>
-            <AboutMeForm/>
+            <Curriculum/>
         </div>
     )
 }
