@@ -1,120 +1,85 @@
-import React, { useState, useEffect } from 'react';
-import { TextField, Button, Box } from '@mui/material';
-import axios from 'axios';
-
-interface Candidate {
-  fullName: string;
-  location: string;
-  cellphoneNumber: string;
-  linkedin: string;
-}
+import React from 'react';
+import { Box, TextField, Button } from '@mui/material';
+import useAboutMeForm from '../../hooks/useAboutMeForm';
+import FormAccordion from '../FormAccordion';
+import LocationSelect from '../LocationSelect';
+import candidateAboutMeData from '../../types/CandidateAboutMeData';
+import InputMask from 'react-input-mask';
 
 const AboutMeForm: React.FC = () => {
-  const [candidate, setCandidate] = useState<Candidate>({
-    fullName: '',
-    location: '',
-    cellphoneNumber: '',
-    linkedin: '',
-  });
-  
-  const [isSaved, setIsSaved] = useState(false); // Controle para saber se o candidato já foi salvo
   const candidateId = localStorage.getItem("candidateId");
+  const {
+    candidate,
+    errors,
+    isSaved,
+    handleChange,
+    handleSubmit,
+  } = useAboutMeForm(candidateId);
 
-  // Função para gerar a chave do localStorage baseada no candidateId
-  const getStorageKey = (id: string | null) => `candidate_${id}`;
-
-  // Carregar os dados do localStorage ao carregar a página
-  useEffect(() => {
-    if (!candidateId) {
-      return; // Não fazer nada se não houver candidateId
-    }
-
-    const storageKey = getStorageKey(candidateId);
-    const storedCandidate = localStorage.getItem(storageKey);
-
-    if (storedCandidate) {
-      setCandidate(JSON.parse(storedCandidate)); // Preenche o formulário com os dados salvos
-      setIsSaved(true); // Marca como salvo se houver dados
-    } else {
-      // Se não houver dados no localStorage, buscar do servidor
-      const fetchCandidateData = async () => {
-        try {
-          const response = await axios.get(`http://localhost:8080/aboutMe/${candidateId}`);
-          const data = response.data;
-          setCandidate({
-            fullName: data.fullName,
-            location: data.location,
-            cellphoneNumber: data.cellphoneNumber,
-            linkedin: data.linkedin,
-          });
-          setIsSaved(true); // Marcar como salvo
-        } catch (error) {
-          console.error('Erro ao buscar dados do candidato:', error);
-        }
-      };
-      fetchCandidateData();
-    }
-  }, [candidateId]);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setCandidate((prev) => ({ ...prev, [name]: value }));
-  };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      const storageKey = getStorageKey(candidateId);
-      
-      if (isSaved) {
-        // Se já está salvo, faz a atualização
-        const response = await axios.put(`http://localhost:8080/aboutMe/update/${candidateId}`, candidate);
-        console.log('Candidato atualizado:', response.data);
-        // Salva os dados atualizados no localStorage
-        localStorage.setItem(storageKey, JSON.stringify(candidate));
-      } else {
-        // Caso contrário, faz o primeiro salvamento
-        const response = await axios.post(`http://localhost:8080/aboutMe/${candidateId}`, candidate);
-        console.log('Candidato salvo:', response.data);
-        setIsSaved(true); // Após salvar, mudar para "Atualizar"
-        // Salva os dados no localStorage após salvar
-        localStorage.setItem(storageKey, JSON.stringify(candidate));
-      }
-    } catch (error) {
-      console.error('Erro ao salvar ou atualizar candidato:', error);
+    if (name === 'cellphoneNumber') {
+      const maskedValue = value
+        .replace(/\D/g, "")
+        .replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3");
+      handleChange(name as keyof candidateAboutMeData, maskedValue);
+    } else {
+      handleChange(name as keyof candidateAboutMeData, value);
     }
   };
 
   return (
-    <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2, width: '100%', maxWidth: 400, margin: '0 auto' }}>
-      <TextField
-        label="Nome Completo"
-        name="fullName"
-        value={candidate.fullName}
-        onChange={handleChange}
-      />
-      <TextField
-        label="Localização"
-        name="location"
-        value={candidate.location}
-        onChange={handleChange}
-      />
-      <TextField
-        label="Número de Celular"
-        name="cellphoneNumber"
-        value={candidate.cellphoneNumber}
-        onChange={handleChange}
-      />
-      <TextField
-        label="LinkedIn"
-        name="linkedin"
-        value={candidate.linkedin}
-        onChange={handleChange}
-      />
-      <Button type="submit" variant="contained" color="primary">
-        {isSaved ? 'Atualizar Candidato' : 'Salvar Candidato'}
-      </Button>
-    </Box>
+    <FormAccordion title="Sobre Mim">
+      <Box
+        component="form"
+        onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}
+        sx={{ display: 'flex', flexDirection: 'column', gap: 2, width: '100%', margin: '0 auto' }}
+      >
+        <TextField
+          label="Nome Completo"
+          name="fullName"
+          value={candidate.fullName}
+          onChange={onInputChange}
+          error={!!errors.fullName}
+          helperText={errors.fullName}
+        />
+        <LocationSelect
+          value={candidate.location}
+          onChange={(newValue) => handleChange('location', newValue)}
+          error={!!errors.location}
+          helperText={errors.location}
+        />
+        <InputMask
+          mask="(99) 99999-9999"
+          value={candidate.cellphoneNumber}
+          onChange={onInputChange}
+        >
+          {(inputProps) => (
+            <TextField
+              {...inputProps}
+              label="Número de Celular"
+              name="cellphoneNumber"
+              error={!!errors.cellphoneNumber}
+              helperText={errors.cellphoneNumber}
+            />
+          )}
+        </InputMask>
+        <TextField
+          label="LinkedIn"
+          name="linkedin"
+          value={candidate.linkedin}
+          onChange={onInputChange}
+          error={!!errors.linkedin}
+          helperText={errors.linkedin}
+        />
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Button sx={{ width: '200px' }} type="submit" variant="contained" color="primary">
+            {isSaved ? 'Atualizar' : 'Salvar'}
+          </Button>
+        </Box>
+      </Box>
+    </FormAccordion>
   );
 };
 
