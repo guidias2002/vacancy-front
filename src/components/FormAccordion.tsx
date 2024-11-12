@@ -5,17 +5,18 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 interface FormAccordionProps {
     title: string;
     children: React.ReactNode;
+    index: number;
 }
 
-const FormAccordion: React.FC<FormAccordionProps> = ({ title, children }) => {
+const FormAccordion: React.FC<FormAccordionProps> = ({ title, children, index }) => {
     return (
-        <Accordion sx={{ width: '800px', margin: '0 auto', padding: '20px 5px', boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px' }}>
+        <Accordion sx={{ width: '1000px', margin: '0 auto', padding: '20px 5px', boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px', borderRadius: '10px' }}>
             <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls={`${title.toLowerCase().replace(/ /g, '-')}-content`}
                 id={`${title.toLowerCase().replace(/ /g, '-')}-header`}
             >
-                <Typography>{title}</Typography>
+                <Typography sx={{ fontSize: '1.2rem', fontWeight: 'bold'}}>{title}</Typography>
             </AccordionSummary>
             <AccordionDetails>
                 {children}
