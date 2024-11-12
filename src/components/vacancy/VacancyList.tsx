@@ -4,6 +4,7 @@ import axios from "axios";
 import VacancyCard from "./VacancyCard";
 import { CircularProgress } from "@mui/material";
 import '../../styles/VacancyList.css';
+import Loading from "../Loading";
 
 
 const VacancyList: React.FC = () => {
@@ -23,7 +24,7 @@ const VacancyList: React.FC = () => {
         });
     }, []);
   
-    if (loading) return <CircularProgress size={24} />;
+    if (loading) return <Loading/>;
   
     return (
       <div className="vacancy-list">

@@ -8,6 +8,7 @@ import { FaLocationDot } from "react-icons/fa6";
 import { RiComputerFill } from "react-icons/ri";
 
 import '../../styles/VacancyDetail.css';
+import Loading from "../Loading";
 
 const VacancyDetails = () => {
 
@@ -31,7 +32,7 @@ const VacancyDetails = () => {
     }, [id]);
 
     if (loading) {
-        return <div>Carregando...</div>;
+        return <Loading/>;
     }
 
     if (!vacancie) {

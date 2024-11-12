@@ -3,6 +3,7 @@ import { Application } from "../../types/ApplicationData";
 import axios from "axios";
 import CandidationApplication from "./CandidationApplication";
 
+import Loading from "../Loading";
 import '../../styles/CandidationApplicationList.css';
 
 const CandidateApplicationList: React.FC = () => {
@@ -29,7 +30,7 @@ const CandidateApplicationList: React.FC = () => {
   }, [storedCandidateId]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loading/>;
   }
 
   return (

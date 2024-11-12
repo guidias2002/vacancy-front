@@ -19,10 +19,10 @@ const CandidateApplications: React.FC<CandidateApplicationsProps> = ({ applicati
           <p>Id da vaga: {application.vacancyId}</p>
         </div>
 
-        <Divider sx={{ mb: 2 }} />
+        <Divider sx={{ mb: 1 }} />
 
         <div className="field-date">
-          <p>Data e hora da candidatura: {new Date(application.createdAt).toLocaleString()}</p>
+          <p>Data/Hora da candidatura: {new Date(application.createdAt).toLocaleString()}</p>
         </div>
       </div>
     </Link>
