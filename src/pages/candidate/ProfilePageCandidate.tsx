@@ -1,9 +1,13 @@
+import AboutMeForm from "../../components/aboutCandidate/AboutMe";
 import SidebarCandidate from "../../components/SidebarCandidate";
 
 const ProfilePageCandidate = () => {
 
     return (
-        <SidebarCandidate/>
+        <div>
+            <SidebarCandidate/>
+            <AboutMeForm/>
+        </div>
     )
 }
 
