@@ -1,6 +1,6 @@
-import AboutMeForm from "./aboutCandidate/AboutMe";
+import AboutMeForm from "../../components/aboutCandidate/AboutMeForm";
 
-import '../styles/Curriculum.css';
+import '../../styles/Curriculum.css';
 
 const Curriculum = () => {
 

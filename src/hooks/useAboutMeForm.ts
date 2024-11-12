@@ -20,15 +20,20 @@ const useAboutMeForm = (candidateId: string | null) => {
     if (!candidateId) return;
 
     const storageKey = getStorageKey(candidateId);
-    const storedCandidate = localStorage.getItem(storageKey);
 
+    const storedCandidate = localStorage.getItem(storageKey);
     if (storedCandidate) {
       setCandidate(JSON.parse(storedCandidate));
       setIsSaved(true);
     } else {
       fetchCandidateData();
     }
+
+    return () => {
+      localStorage.removeItem(storageKey);
+    };
   }, [candidateId]);
+
 
   const fetchCandidateData = async () => {
     if (!candidateId) return;
