@@ -1,11 +1,32 @@
 import React from 'react';
-import { Box, Button, TextField, Checkbox, FormControlLabel, IconButton, Divider, Typography } from '@mui/material';
+import { Box, Button, TextField, Checkbox, FormControlLabel, IconButton, Divider, Typography, Autocomplete } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import useProfessionalExperienceForm from '../../hooks/useProfessionalExperienceForm';
 import FormAccordion from '../FormAccordion';
+import AddIcon from '@mui/icons-material/Add';
 
 const ProfessionalExperienceForm: React.FC = () => {
     const candidateId = localStorage.getItem("candidateId");
+
+    const months = [
+        { label: "Janeiro", value: 1 },
+        { label: "Fevereiro", value: 2 },
+        { label: "Março", value: 3 },
+        { label: "Abril", value: 4 },
+        { label: "Maio", value: 5 },
+        { label: "Junho", value: 6 },
+        { label: "Julho", value: 7 },
+        { label: "Agosto", value: 8 },
+        { label: "Setembro", value: 9 },
+        { label: "Outubro", value: 10 },
+        { label: "Novembro", value: 11 },
+        { label: "Dezembro", value: 12 },
+    ];
+
+    const years = Array.from({ length: 2024 - 1970 + 1 }, (_, i) => ({
+        label: `${1970 + i}`,
+        value: 1970 + i,
+    })).reverse();
 
     const {
         experiences,
@@ -40,53 +61,105 @@ const ProfessionalExperienceForm: React.FC = () => {
                         helperText={errors[index]?.position}
                     />
 
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                        <Box sx={{ display: 'flex', gap: 2 }}>
-                            <TextField
-                                label="Mês de Início"
-                                name="monthStart"
-                                value={experience.monthStart}
-                                onChange={(e) => handleChange(index, 'monthStart', e.target.value)}
-                                error={!!errors[index]?.monthStart}
-                                helperText={errors[index]?.monthStart}
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 4 }}>
+                        <Box sx={{ display: 'flex', gap: 2, width: '100%' }}>
+                            {/* Mês de Início */}
+                            <Autocomplete
+                                fullWidth
+                                options={months}
+                                getOptionLabel={(option) => option.label}
+                                value={months.find((m) => m.value === Number(experience.monthStart)) || null}
+                                onChange={(e, newValue) => handleChange(index, 'monthStart', String(newValue?.value || ''))}
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        label="Mês de Início"
+                                        error={!!errors[index]?.monthStart}
+                                        helperText={errors[index]?.monthStart}
+                                    />
+                                )}
                             />
-                            <TextField
-                                label="Ano de Início"
-                                name="yearStart"
-                                value={experience.yearStart}
-                                onChange={(e) => handleChange(index, 'yearStart', e.target.value)}
-                                error={!!errors[index]?.yearStart}
-                                helperText={errors[index]?.yearStart}
+
+                            {/* Ano de Início */}
+                            <Autocomplete
+                                fullWidth
+                                options={years}
+                                getOptionLabel={(option) => option.label}
+                                value={years.find((y) => y.value === Number(experience.yearStart)) || null}
+                                onChange={(e, newValue) => handleChange(index, 'yearStart', String(newValue?.value || ''))}
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        label="Ano de Início"
+                                        error={!!errors[index]?.yearStart}
+                                        helperText={errors[index]?.yearStart}
+                                    />
+                                )}
                             />
                         </Box>
-                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
 
+                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, width: '100%' }}>
                             <Box sx={{ display: 'flex', gap: 2 }}>
-                                <TextField
-                                    label="Mês de Término"
-                                    name="monthEnd"
-                                    value={experience.monthEnd}
-                                    onChange={(e) => handleChange(index, 'monthEnd', e.target.value)}
-                                    error={!!errors[index]?.monthEnd}
-                                    helperText={errors[index]?.monthEnd}
-                                    disabled={experience.isCurrentJob}
+                                {/* Mês de Término */}
+                                <Autocomplete
+                                    fullWidth
+                                    options={months}
+                                    getOptionLabel={(option) => option.label}
+                                    value={experience.isCurrentJob ? null : months.find((m) => m.value === Number(experience.monthEnd)) || null}
+                                    onChange={(e, newValue) => {
+                                        if (!experience.isCurrentJob) {
+                                            handleChange(index, 'monthEnd', String(newValue?.value || ''));
+                                        }
+                                    }}
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            label="Mês de Término"
+                                            error={!!errors[index]?.monthEnd}
+                                            helperText={errors[index]?.monthEnd}
+                                            disabled={experience.isCurrentJob}
+                                        />
+                                    )}
                                 />
-                                <TextField
-                                    label="Ano de Término"
-                                    name="yearEnd"
-                                    value={experience.yearEnd}
-                                    onChange={(e) => handleChange(index, 'yearEnd', e.target.value)}
-                                    error={!!errors[index]?.yearEnd}
-                                    helperText={errors[index]?.yearEnd}
-                                    disabled={experience.isCurrentJob}
+
+                                {/* Ano de Término */}
+                                <Autocomplete
+                                    fullWidth
+                                    options={years}
+                                    getOptionLabel={(option) => option.label}
+                                    value={experience.isCurrentJob ? null : years.find((y) => y.value === Number(experience.yearEnd)) || null}
+                                    onChange={(e, newValue) => {
+                                        if (!experience.isCurrentJob) {
+                                            handleChange(index, 'yearEnd', String(newValue?.value || ''));
+                                        }
+                                    }}
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            label="Ano de Término"
+                                            error={!!errors[index]?.yearEnd}
+                                            helperText={errors[index]?.yearEnd}
+                                            disabled={experience.isCurrentJob}
+                                        />
+                                    )}
                                 />
                             </Box>
 
+                            {/* Checkbox "Trabalho Atual" */}
                             <FormControlLabel
                                 control={
                                     <Checkbox
                                         checked={experience.isCurrentJob}
-                                        onChange={(e) => handleCheckboxChange(index, e.target.checked)}
+                                        onChange={(e) => {
+                                            const isChecked = e.target.checked;
+                                            handleCheckboxChange(index, isChecked);
+
+                                            // Limpa os campos de término se o checkbox estiver marcado
+                                            if (isChecked) {
+                                                handleChange(index, 'monthEnd', '');
+                                                handleChange(index, 'yearEnd', '');
+                                            }
+                                        }}
                                     />
                                 }
                                 label="Trabalho Atual"
@@ -111,10 +184,35 @@ const ProfessionalExperienceForm: React.FC = () => {
                     </Box>
                     <Divider sx={{ mb: 4 }} />
                 </Box>
-            ))}
+            ))
+            }
             <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: 2 }}>
-                <Button variant="outlined" onClick={handleAddExperience}>Adicionar Experiência</Button>
-                <Button variant="contained" color="primary" onClick={handleSubmit}>Salvar Experiências</Button>
+                <Button
+                    sx={{
+                        color: '#87aa68',
+                        borderColor: 'transparent',
+                        textTransform: 'none',// Remover transformação de texto
+                        '&:hover': {
+                          backgroundColor: 'transparent', // Remover o fundo do hover
+                          borderColor: 'transparent', // Remover a borda do hover
+                        },
+                    }}
+                    startIcon={<AddIcon />} 
+                    onClick={handleAddExperience}
+                >
+                    Adicionar Experiência
+                </Button>
+
+                <Button
+                    sx={{
+                        bgcolor: '#87aa68',
+                        color: 'white', 
+                    }}
+                    variant="contained"
+                    onClick={handleSubmit}
+                >
+                    Salvar Experiências
+                </Button>
             </Box>
 
         </FormAccordion >
