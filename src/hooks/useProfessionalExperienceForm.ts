@@ -48,14 +48,14 @@ const useProfessionalExperienceForm = (candidateId: string | null) => {
     });
   };
 
-  const handleCheckboxChange = (index: number) => {
+  const handleCheckboxChange = (index: number, isChecked: boolean) => {
     setExperiences((prev) => {
       const updatedExperiences = [...prev];
       updatedExperiences[index] = {
         ...updatedExperiences[index],
-        isCurrentJob: !updatedExperiences[index].isCurrentJob,
-        monthEnd: !updatedExperiences[index].isCurrentJob ? null : updatedExperiences[index].monthEnd,
-        yearEnd: !updatedExperiences[index].isCurrentJob ? null : updatedExperiences[index].yearEnd,
+        isCurrentJob: isChecked,
+        monthEnd: isChecked ? null : updatedExperiences[index].monthEnd,
+        yearEnd: isChecked ? null : updatedExperiences[index].yearEnd,
       };
       return updatedExperiences;
     });
@@ -81,11 +81,7 @@ const useProfessionalExperienceForm = (candidateId: string | null) => {
   const handleRemoveExperience = async (index: number) => {
     
     const experienceId = experiences[index]?.id;
-
-  if (!experienceId) {
-    alert("ID da experiência não encontrado.");
-    return;
-  }
+    setExperiences((prev) => prev.filter((_, i) => i !== index));
 
   try {
     await axios.delete(`http://localhost:8080/professionalExperience/delete/${experienceId}`);
@@ -115,7 +111,7 @@ const useProfessionalExperienceForm = (candidateId: string | null) => {
     if (!validate()) return;
 
     try {
-      await axios.post(`http://localhost:8080/professionalExperience/candidateId/${candidateId}`, experiences);
+      await axios.put(`http://localhost:8080/professionalExperience/saveOrUpdateExperience/${candidateId}`, experiences);
       setIsSaved(true);
 
       fetchProfessionalExperiences();
