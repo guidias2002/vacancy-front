@@ -21,6 +21,7 @@ const useProfessionalExperienceForm = (candidateId: string | null) => {
   const [experiences, setExperiences] = useState<ProfessionalExperienceData[]>([]);
   const [errors, setErrors] = useState<Errors[]>([]);
   const [isSaved, setIsSaved] = useState(false);
+  const [successMessageOpen, setSuccessMessageOpen] = useState(false);
 
   const fetchProfessionalExperiences = async () => {
     if (!candidateId) return;
@@ -115,6 +116,7 @@ const useProfessionalExperienceForm = (candidateId: string | null) => {
       setIsSaved(true);
 
       fetchProfessionalExperiences();
+      setSuccessMessageOpen(true);
     } catch (error) {
       console.error('Erro ao cadastrar experiências profissionais:', error);
       alert('Erro ao cadastrar experiências profissionais.');
@@ -130,6 +132,8 @@ const useProfessionalExperienceForm = (candidateId: string | null) => {
     handleAddExperience,
     handleRemoveExperience,
     handleSubmit,
+    successMessageOpen,
+    setSuccessMessageOpen
   };
 };
 

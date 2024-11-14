@@ -15,6 +15,7 @@ const useAboutMeForm = (candidateId: string | null) => {
 
   const [errors, setErrors] = useState<Partial<CandidateAboutMeData>>({});
   const [isSaved, setIsSaved] = useState(false);
+  const [successMessageOpen, setSuccessMessageOpen] = useState(false);
 
   useEffect(() => {
     if (!candidateId) return;
@@ -80,18 +81,23 @@ const useAboutMeForm = (candidateId: string | null) => {
         setIsSaved(true);
       }
       localStorage.setItem(storageKey, JSON.stringify(candidate));
+
+      setSuccessMessageOpen(true);
     } catch (error) {
       console.error('Erro ao salvar ou atualizar candidato:', error);
     }
   };
+
 
   return {
     candidate,
     errors,
     isSaved,
     handleChange,
-    handleSubmit
-  };
+    handleSubmit,
+    successMessageOpen,
+    setSuccessMessageOpen
+};
 };
 
 export default useAboutMeForm;

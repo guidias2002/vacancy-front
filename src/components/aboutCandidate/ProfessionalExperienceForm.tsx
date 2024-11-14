@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, TextField, Checkbox, FormControlLabel, IconButton, Divider, Typography, Autocomplete } from '@mui/material';
+import { Box, Button, TextField, Checkbox, FormControlLabel, IconButton, Divider, Typography, Autocomplete, Snackbar, Alert } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import useProfessionalExperienceForm from '../../hooks/useProfessionalExperienceForm';
 import FormAccordion from '../FormAccordion';
@@ -36,6 +36,8 @@ const ProfessionalExperienceForm: React.FC = () => {
         handleAddExperience,
         handleRemoveExperience,
         handleSubmit,
+        successMessageOpen,
+        setSuccessMessageOpen
     } = useProfessionalExperienceForm(candidateId);
 
     return (
@@ -191,13 +193,13 @@ const ProfessionalExperienceForm: React.FC = () => {
                     sx={{
                         color: '#87aa68',
                         borderColor: 'transparent',
-                        textTransform: 'none',// Remover transformação de texto
+                        textTransform: 'none',
                         '&:hover': {
-                          backgroundColor: 'transparent', // Remover o fundo do hover
-                          borderColor: 'transparent', // Remover a borda do hover
+                            backgroundColor: 'transparent',
+                            borderColor: 'transparent',
                         },
                     }}
-                    startIcon={<AddIcon />} 
+                    startIcon={<AddIcon />}
                     onClick={handleAddExperience}
                 >
                     Adicionar Experiência
@@ -206,7 +208,8 @@ const ProfessionalExperienceForm: React.FC = () => {
                 <Button
                     sx={{
                         bgcolor: '#87aa68',
-                        color: 'white', 
+                        color: 'white',
+                        width: '200px'
                     }}
                     variant="contained"
                     onClick={handleSubmit}
@@ -214,6 +217,17 @@ const ProfessionalExperienceForm: React.FC = () => {
                     Salvar Experiências
                 </Button>
             </Box>
+
+            <Snackbar
+                open={successMessageOpen}
+                autoHideDuration={3000}
+                onClose={() => setSuccessMessageOpen(false)}
+                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            >
+                <Alert onClose={() => setSuccessMessageOpen(false)} severity="success">
+                    Dados salvos com sucesso!
+                </Alert>
+            </Snackbar>
 
         </FormAccordion >
     );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, TextField, Button } from '@mui/material';
+import { Box, TextField, Button, Snackbar, Alert } from '@mui/material';
 import useAboutMeForm from '../../hooks/useAboutMeForm';
 import FormAccordion from '../FormAccordion';
 import LocationSelect from '../LocationSelect';
@@ -14,6 +14,8 @@ const AboutMeForm: React.FC = () => {
     isSaved,
     handleChange,
     handleSubmit,
+    successMessageOpen,
+    setSuccessMessageOpen
   } = useAboutMeForm(candidateId);
 
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,11 +76,22 @@ const AboutMeForm: React.FC = () => {
           helperText={errors.linkedin}
         />
         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Button sx={{ width: '200px' }} type="submit" variant="contained" color="primary">
+          <Button sx={{ bgcolor: '#87aa68', color: 'white', width: '200px' }} type="submit" variant="contained" color="primary">
             {isSaved ? 'Atualizar' : 'Salvar'}
           </Button>
         </Box>
       </Box>
+
+      <Snackbar
+        open={successMessageOpen}
+        autoHideDuration={3000}
+        onClose={() => setSuccessMessageOpen(false)}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      >
+        <Alert onClose={() => setSuccessMessageOpen(false)} severity="success">
+          Dados salvos com sucesso!
+        </Alert>
+      </Snackbar>
     </FormAccordion>
   );
 };
