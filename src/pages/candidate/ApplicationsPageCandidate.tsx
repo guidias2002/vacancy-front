@@ -1,13 +1,21 @@
 import CandidateApplicationList from "../../components/applications/CandidationApplicationList";
 import SidebarCandidate from "../../components/SidebarCandidate"
+import Title from "../../components/Title";
 import '../../styles/ApplicationPage.css'
 
 const ApplicationsPageCandidate = () => {
 
     return (
         <div className="application-page">
-            <SidebarCandidate/>
-            <CandidateApplicationList/>
+            <SidebarCandidate />
+
+            <div className="main-section-application-page">
+                <Title
+                    title="Minhas candidaturas"
+                    subTitle="Visualize e gerencie todas as suas candidaturas em um só lugar"
+                />
+                <CandidateApplicationList />
+            </div>
         </div>
     )
 }
