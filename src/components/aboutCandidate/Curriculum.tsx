@@ -2,6 +2,7 @@ import AboutMeForm from "../../components/aboutCandidate/AboutMeForm";
 
 import '../../styles/Curriculum.css';
 import Title from "../Title";
+import AcademicExperienceForm from "./AcademicExperienceForm";
 import ProfessionalExperienceForm from "./ProfessionalExperienceForm";
 
 const Curriculum = () => {
@@ -14,6 +15,7 @@ const Curriculum = () => {
             />
             <AboutMeForm/>
             <ProfessionalExperienceForm/>
+            <AcademicExperienceForm/>
         </div>
     )
 }
