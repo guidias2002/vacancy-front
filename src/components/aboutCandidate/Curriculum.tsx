@@ -2,7 +2,7 @@ import AboutMeForm from "../../components/aboutCandidate/AboutMeForm";
 
 import '../../styles/Curriculum.css';
 import Title from "../Title";
-import AcademicExperienceForm from "./AcademicExperienceForm";
+import AcademicExperienceForm from "./academic-experience/AcademicExperienceForm";
 import ProfessionalExperienceForm from "./ProfessionalExperienceForm";
 
 const Curriculum = () => {
