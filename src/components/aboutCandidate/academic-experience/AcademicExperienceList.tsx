@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Box, Typography, CircularProgress, Button, Dialog, DialogTitle, DialogContent } from "@mui/material";
-import DeleteIcon from '@mui/icons-material/Delete';
+import { Box, Typography, CircularProgress, Dialog, DialogContent } from "@mui/material";
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import EditIcon from '@mui/icons-material/Edit';
 import axios from "axios";
 import AcademicExperience from "../../../types/AcademicExperience";
@@ -72,7 +72,7 @@ const AcademicExperienceList: React.FC = () => {
             );
             console.log("Atualizado com sucesso");
             setIsEditing(false);
-            
+
             setAcademicExperiences((prev) =>
                 prev?.map((exp) =>
                     exp.id === updatedExperience.id ? updatedExperience : exp
@@ -100,9 +100,8 @@ const AcademicExperienceList: React.FC = () => {
                         key={index}
                         sx={{
                             border: "1px solid #ddd",
-                            borderRadius: "8px",
+                            borderRadius: "4px",
                             padding: "16px",
-                            backgroundColor: "#f9f9f9",
                         }}
                     >
                         <Box sx={{ display: 'flex', flexDirection: 'column', marginBottom: '20px' }}>
@@ -138,9 +137,13 @@ const AcademicExperienceList: React.FC = () => {
                             </Box>
                         </Box>
 
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', textAlign: 'center' }}>
-                            <DeleteIcon sx={{ cursor: 'pointer' }} onClick={() => handleDeleteAcademicExperience(experience.id)} />
-                            <Typography sx={{ cursor: 'pointer' }} onClick={() => fetchAcademicExperienceById(experience.id)}>Editar Informações <EditIcon /></Typography>
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', textAlign: 'center', marginTop: '20px' }}>
+                            <DeleteOutlineIcon sx={{ cursor: 'pointer', color: 'red' }} onClick={() => handleDeleteAcademicExperience(experience.id)} />
+
+                            <Box onClick={() => fetchAcademicExperienceById(experience.id)} sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer', gap: '10px' }}>
+                                <Typography sx={{ fontWeight: 'bold', color: '#87aa68'}}>Editar Informações</Typography>
+                                <EditIcon sx={{ color: '#87aa68' }}/>
+                            </Box>
                         </Box>
                     </Box>
                 ))

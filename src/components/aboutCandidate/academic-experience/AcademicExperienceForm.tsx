@@ -1,4 +1,4 @@
-import { Box, Button, Dialog, DialogContent, DialogTitle } from "@mui/material";
+import { Box, Button, Dialog, DialogContent, DialogTitle, Typography } from "@mui/material";
 import FormAccordion from "../../FormAccordion";
 
 import '../../../styles/AcademicExperienceForm.css';
@@ -17,22 +17,22 @@ const AcademicExperienceForm: React.FC = () => {
     return (
         <FormAccordion title="Experiência Acadêmica">
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <AcademicExperienceList/>
-                <Button
+                <AcademicExperienceList />
+                <Box
                     sx={{
-                        color: '#87aa68',
-                        borderColor: 'transparent',
-                        textTransform: 'none',
-                        '&:hover': {
-                            backgroundColor: 'transparent',
-                            borderColor: 'transparent',
-                        },
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        border: "1px solid #ddd",
+                        borderRadius: "4px",
+                        padding: "20px 16px",
+                        cursor: 'pointer'
                     }}
-                    startIcon={<AddIcon />}
                     onClick={handleOpen}
-                    >
-                    Adicionar Experiência
-                </Button>
+                >
+                    <Typography sx={{ fontWeight: 'bold', color: '#87aa68' }}>Adicionar Experiência</Typography>
+                    <AddIcon sx={{ color: '#87aa68' }} />
+                </Box>
+
                 <Dialog open={open} onClose={handleClose} fullWidth maxWidth="md">
                     <DialogTitle>Adicionar Experiência Acadêmica</DialogTitle>
                     <DialogContent>

@@ -1,5 +1,7 @@
 import { Box, Typography, TextField, Button, Autocomplete } from '@mui/material';
 import AcademicExperience from '../../../types/AcademicExperience';
+import { validateAcademicExperience } from "../../../validations/AcademicExperienceFormValidation";
+import { useState } from 'react';
 
 interface EditAcademicExperienceFormProps {
     experience: AcademicExperience;
@@ -7,7 +9,6 @@ interface EditAcademicExperienceFormProps {
     onSubmit: () => void;
     onCancel: () => void;
 }
-
 
 const months = [
     { label: "Janeiro", value: 1 },
@@ -54,6 +55,32 @@ const EditAcademicExperienceForm: React.FC<EditAcademicExperienceFormProps> = ({
     onSubmit,
     onCancel,
 }) => {
+
+    const [errors, setErrors] = useState<Record<string, string>>({});
+
+    const handleSave = () => {
+        const validationErrors = validateAcademicExperience(
+            experience,
+            months,
+            courseLevels,
+            status
+        );
+
+        if (validationErrors.length > 0) {
+            const errorMap: Record<string, string> = {};
+            validationErrors.forEach((error) => {
+                errorMap[error.field] = error.message;
+            });
+            setErrors(errorMap);
+            return;
+        }
+
+        // Se não houver erros, limpa os erros e envia os dados
+        setErrors({});
+        onSubmit();
+    };
+
+
     return (
         <Box
             sx={{
@@ -75,6 +102,8 @@ const EditAcademicExperienceForm: React.FC<EditAcademicExperienceFormProps> = ({
                         course: e.target.value,
                     })
                 }
+                error={!!errors.course}
+                helperText={errors.course}
                 fullWidth
                 margin="normal"
             />
@@ -88,6 +117,8 @@ const EditAcademicExperienceForm: React.FC<EditAcademicExperienceFormProps> = ({
                         institution: e.target.value,
                     })
                 }
+                error={!!errors.institution}
+                helperText={errors.institution}
                 fullWidth
                 margin="normal"
             />
@@ -103,7 +134,13 @@ const EditAcademicExperienceForm: React.FC<EditAcademicExperienceFormProps> = ({
                             level: value || "",
                         })
                     }
-                    renderInput={(params) => <TextField {...params} label="Nível" />}
+                    renderInput={(params) =>
+                        <TextField
+                            {...params}
+                            label="Nível"
+                            error={!!errors.level}
+                            helperText={errors.level}
+                        />}
                 />
 
                 <Autocomplete
@@ -116,7 +153,13 @@ const EditAcademicExperienceForm: React.FC<EditAcademicExperienceFormProps> = ({
                             status: value || "",
                         })
                     }
-                    renderInput={(params) => <TextField {...params} label="Status" />}
+                    renderInput={(params) =>
+                        <TextField
+                            {...params}
+                            label="Status"
+                            error={!!errors.status}
+                            helperText={errors.status}
+                        />}
                 />
             </Box>
 
@@ -134,7 +177,13 @@ const EditAcademicExperienceForm: React.FC<EditAcademicExperienceFormProps> = ({
                             monthStart: value ? value.label : "", // Salva o nome do mês
                         })
                     }
-                    renderInput={(params) => <TextField {...params} label="Mês de início" />}
+                    renderInput={(params) =>
+                        <TextField
+                            {...params}
+                            label="Mês de início"
+                            error={!!errors.monthStart}
+                            helperText={errors.monthStart}
+                        />}
                 />
 
                 <Autocomplete
@@ -150,7 +199,13 @@ const EditAcademicExperienceForm: React.FC<EditAcademicExperienceFormProps> = ({
                             yearStart: value ? value.value : 0, // Salva o ano
                         })
                     }
-                    renderInput={(params) => <TextField {...params} label="Ano de início" />}
+                    renderInput={(params) =>
+                        <TextField
+                            {...params}
+                            label="Ano de início"
+                            error={!!errors.yearStart}
+                            helperText={errors.yearStart}
+                        />}
                 />
             </Box>
 
@@ -168,7 +223,13 @@ const EditAcademicExperienceForm: React.FC<EditAcademicExperienceFormProps> = ({
                             monthEnd: value ? value.label : "", // Salva o nome do mês
                         })
                     }
-                    renderInput={(params) => <TextField {...params} label="Mês de término" />}
+                    renderInput={(params) =>
+                        <TextField
+                            {...params}
+                            label="Mês de término"
+                            error={!!errors.monthEnd}
+                            helperText={errors.monthEnd}
+                        />}
                 />
 
                 <Autocomplete
@@ -181,17 +242,23 @@ const EditAcademicExperienceForm: React.FC<EditAcademicExperienceFormProps> = ({
                     onChange={(_, value) =>
                         onChange({
                             ...experience,
-                            yearEnd: value ? value.value : 0, 
+                            yearEnd: value ? value.value : 0,
                         })
                     }
-                    renderInput={(params) => <TextField {...params} label="Ano de término" />}
+                    renderInput={(params) =>
+                        <TextField
+                            {...params}
+                            label="Ano de término"
+                            error={!!errors.yearEnd}
+                            helperText={errors.yearEnd}
+                        />}
                 />
             </Box>
 
             <Button
                 variant="contained"
                 color="primary"
-                onClick={onSubmit}
+                onClick={handleSave}
                 sx={{ marginRight: 1 }}
             >
                 Salvar Alterações

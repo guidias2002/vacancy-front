@@ -1,5 +1,7 @@
 import { Autocomplete, Box, Button, TextField } from "@mui/material";
 import { useAcademyExperienceForm } from "../../../hooks/useAcademicExperienceForm";
+import { validateAcademicExperience } from "../../../validations/AcademicExperienceFormValidation";
+import { useState } from "react";
 
 interface AcademicExperienceFormPopupProps {
     onClose: () => void;
@@ -8,11 +10,9 @@ interface AcademicExperienceFormPopupProps {
 const AcademicExperienceFormPopup: React.FC<AcademicExperienceFormPopupProps> = ({ onClose }) => {
     const candidateId = localStorage.getItem("candidateId");
 
-    const {
-        handleSubmit,
-        handleChange,
-        academicExperience,
-    } = useAcademyExperienceForm(candidateId);
+    const { handleSubmit, handleChange, academicExperience } = useAcademyExperienceForm(candidateId);
+
+    const [errors, setErrors] = useState<Record<string, string>>({});
 
     const months = [
         { label: "Janeiro", value: 1 },
@@ -49,32 +49,72 @@ const AcademicExperienceFormPopup: React.FC<AcademicExperienceFormPopupProps> = 
         "Pós-Graduação",
         "Tecnólogo",
         "Treinamento",
-        "Técnico"
+        "Técnico",
     ];
     const status = ["Completo", "Cursando", "Incompleto"];
 
-    return (
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-            <TextField
-                label="Curso"
-                name="course"
-                value={academicExperience?.course}
-                onChange={(e) => handleChange('course', e.target.value)}
-            />
-            <TextField
-                label="Instituição de ensino"
-                name="institution"
-                value={academicExperience?.institution}
-                onChange={(e) => handleChange('institution', e.target.value)}
-            />
+    const handleSave = () => {
+        const validationErrors = validateAcademicExperience(
+            academicExperience,
+            months,
+            courseLevels,
+            status
+        );
 
-            <Box sx={{ display: 'flex', gap: 4 }}>
+        if (validationErrors.length > 0) {
+            const errorMap: Record<string, string> = {};
+            validationErrors.forEach((error) => {
+                errorMap[error.field] = error.message;
+            });
+            setErrors(errorMap);
+            return;
+        }
+
+        // Se não houver erros, limpa os erros e envia os dados
+        setErrors({});
+        handleSubmit();
+        onClose();
+    };
+
+    return (
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+            <Box>
+                <TextField
+                    label="Curso"
+                    name="course"
+                    value={academicExperience?.course}
+                    onChange={(e) => handleChange("course", e.target.value)}
+                    error={!!errors.course}
+                    helperText={errors.course}
+                    fullWidth
+                />
+            </Box>
+            <Box>
+                <TextField
+                    label="Instituição de ensino"
+                    name="institution"
+                    value={academicExperience?.institution}
+                    onChange={(e) => handleChange("institution", e.target.value)}
+                    error={!!errors.institution}
+                    helperText={errors.institution}
+                    fullWidth
+                />
+            </Box>
+
+            <Box sx={{ display: "flex", gap: 4 }}>
                 <Autocomplete
                     fullWidth
                     options={courseLevels}
                     value={academicExperience?.level}
                     onChange={(_, value) => handleChange("level", value || "")}
-                    renderInput={(params) => <TextField {...params} label="Nível" />}
+                    renderInput={(params) => (
+                        <TextField
+                            {...params}
+                            label="Nível"
+                            error={!!errors.level}
+                            helperText={errors.level}
+                        />
+                    )}
                 />
 
                 <Autocomplete
@@ -82,7 +122,14 @@ const AcademicExperienceFormPopup: React.FC<AcademicExperienceFormPopupProps> = 
                     options={status}
                     value={academicExperience?.status}
                     onChange={(_, value) => handleChange("status", value || "")}
-                    renderInput={(params) => <TextField {...params} label="Status" />}
+                    renderInput={(params) => (
+                        <TextField
+                            {...params}
+                            label="Status"
+                            error={!!errors.status}
+                            helperText={errors.status}
+                        />
+                    )}
                 />
             </Box>
 
@@ -92,14 +139,28 @@ const AcademicExperienceFormPopup: React.FC<AcademicExperienceFormPopupProps> = 
                     options={months}
                     getOptionLabel={(option) => option.label}
                     onChange={(_, value) => handleChange("monthStart", value ? value.label : "")}
-                    renderInput={(params) => <TextField {...params} label="Mês de início" />}
+                    renderInput={(params) => (
+                        <TextField
+                            {...params}
+                            label="Mês de início"
+                            error={!!errors.monthStart}
+                            helperText={errors.monthStart}
+                        />
+                    )}
                 />
                 <Autocomplete
                     fullWidth
                     options={years}
                     getOptionLabel={(option) => option.label}
                     onChange={(_, value) => handleChange("yearStart", value ? value.value : 0)}
-                    renderInput={(params) => <TextField {...params} label="Ano de início" />}
+                    renderInput={(params) => (
+                        <TextField
+                            {...params}
+                            label="Ano de início"
+                            error={!!errors.yearStart}
+                            helperText={errors.yearStart}
+                        />
+                    )}
                 />
             </Box>
 
@@ -109,32 +170,36 @@ const AcademicExperienceFormPopup: React.FC<AcademicExperienceFormPopupProps> = 
                     options={months}
                     getOptionLabel={(option) => option.label}
                     onChange={(_, value) => handleChange("monthEnd", value ? value.label : "")}
-                    renderInput={(params) => <TextField {...params} label="Mês de término" />}
+                    renderInput={(params) => (
+                        <TextField
+                            {...params}
+                            label="Mês de término"
+                            error={!!errors.monthEnd}
+                            helperText={errors.monthEnd}
+                        />
+                    )}
                 />
                 <Autocomplete
                     fullWidth
                     options={years}
                     getOptionLabel={(option) => option.label}
                     onChange={(_, value) => handleChange("yearEnd", value ? value.value : 0)}
-                    renderInput={(params) => <TextField {...params} label="Ano de término" />}
+                    renderInput={(params) => (
+                        <TextField
+                            {...params}
+                            label="Ano de término"
+                            error={!!errors.yearEnd}
+                            helperText={errors.yearEnd}
+                        />
+                    )}
                 />
             </Box>
 
             <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2 }}>
-                <Button
-                    sx={{ bgcolor: '#87aa68', color: 'white' }}
-                    variant="contained"
-                    onClick={() => {
-                        handleSubmit();
-                        onClose();
-                    }}
-                >
+                <Button sx={{ bgcolor: "#87aa68", color: "white" }} variant="contained" onClick={handleSave}>
                     Salvar
                 </Button>
-                <Button
-                    variant="outlined"
-                    onClick={onClose}
-                >
+                <Button variant="outlined" onClick={onClose}>
                     Cancelar
                 </Button>
             </Box>
