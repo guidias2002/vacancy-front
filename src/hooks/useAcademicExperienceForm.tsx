@@ -1,22 +1,12 @@
 import axios from "axios"
 import { useState } from "react";
+import AcademicExperience from "../types/AcademicExperience";
 
 export const useAcademyExperienceForm = (candidateId: string | null) => {
 
-    interface AcademicExperienceData {
-        id: string;
-        course: string;
-        institution: string;
-        level: string;
-        status: string;
-        monthStart: string;
-        yearStart: number;
-        monthEnd: string;
-        yearEnd: number;
-    }
 
-    const [academicExperience, setAcademicExperience] = useState<AcademicExperienceData>({
-        id: "",
+    const [academicExperience, setAcademicExperience] = useState<AcademicExperience>({
+        id: 0,
         course: "",
         institution: "",
         level: "",
@@ -38,7 +28,7 @@ export const useAcademyExperienceForm = (candidateId: string | null) => {
         }
     }
 
-    const handleChange = (field: keyof AcademicExperienceData, value: any) => {
+    const handleChange = (field: keyof AcademicExperience, value: any) => {
         setAcademicExperience((prev) => ({
             ...prev,
             [field]: value,
