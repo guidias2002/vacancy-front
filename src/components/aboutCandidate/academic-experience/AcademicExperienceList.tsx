@@ -1,24 +1,20 @@
 import { useEffect, useState } from "react";
-import { Box, Typography, CircularProgress, Button } from "@mui/material";
+import { Box, Typography, CircularProgress, Button, Dialog, DialogTitle, DialogContent } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import axios from "axios";
-
-interface AcademicExperience {
-    id: number;
-    course: string;
-    institution: string;
-    level: string;
-    status: string;
-    monthStart: string;
-    yearStart: number;
-    monthEnd: string;
-    yearEnd: number;
-}
+import AcademicExperience from "../../../types/AcademicExperience";
+import EditAcademicExperienceForm from "./EditAcademicExperienceFormProps";
 
 const AcademicExperienceList: React.FC = () => {
     const [academicExperiences, setAcademicExperiences] = useState<AcademicExperience[] | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
+    const [selectedExperience, setSelectedExperience] = useState<AcademicExperience | null>(null);
+    const [isEditing, setIsEditing] = useState<boolean>(false);
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
     const candidateId = localStorage.getItem("candidateId");
 
@@ -46,7 +42,7 @@ const AcademicExperienceList: React.FC = () => {
         try {
             await axios.delete(`http://localhost:8080/academicExperience/deleteAcademicExperience/${id}`);
             console.log("Excluído com sucesso");
-    
+
             setAcademicExperiences((prev) => {
                 return prev ? prev.filter((exp) => exp.id !== id) : null;
             });
@@ -54,6 +50,39 @@ const AcademicExperienceList: React.FC = () => {
             console.error("Erro ao excluir experiência:", error);
         }
     };
+
+    const fetchAcademicExperienceById = async (id: number) => {
+        try {
+            const response = await axios.get<AcademicExperience>(
+                `http://localhost:8080/academicExperience/getAcademicExperienceById/${id}`
+            );
+            setSelectedExperience(response.data);
+            setIsEditing(true);
+            handleOpen();
+        } catch (error) {
+            console.error("Erro ao buscar experiência acadêmica:", error);
+        }
+    };
+
+    const handleUpdateAcademicExperience = async (updatedExperience: AcademicExperience) => {
+        try {
+            await axios.put(
+                `http://localhost:8080/academicExperience/update/${updatedExperience.id}`,
+                updatedExperience
+            );
+            console.log("Atualizado com sucesso");
+            setIsEditing(false);
+            
+            setAcademicExperiences((prev) =>
+                prev?.map((exp) =>
+                    exp.id === updatedExperience.id ? updatedExperience : exp
+                ) || []
+            );
+        } catch (error) {
+            console.error("Erro ao atualizar experiência acadêmica:", error);
+        }
+    };
+
 
     if (loading) {
         return <CircularProgress />;
@@ -92,7 +121,7 @@ const AcademicExperienceList: React.FC = () => {
                                 <Typography>{experience.status}</Typography>
                             </Box>
                         </Box>
-                        
+
                         <Box sx={{ display: 'flex' }}>
                             <Box sx={{ width: '50%' }}>
                                 <Typography color='#636362'>Início</Typography>
@@ -109,11 +138,28 @@ const AcademicExperienceList: React.FC = () => {
                             </Box>
                         </Box>
 
-                        <Button onClick={() => handleDeleteAcademicExperience(experience.id)}><DeleteIcon/></Button>
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', textAlign: 'center' }}>
+                            <DeleteIcon sx={{ cursor: 'pointer' }} onClick={() => handleDeleteAcademicExperience(experience.id)} />
+                            <Typography sx={{ cursor: 'pointer' }} onClick={() => fetchAcademicExperienceById(experience.id)}>Editar Informações <EditIcon /></Typography>
+                        </Box>
                     </Box>
                 ))
             ) : (
                 <Typography>Nenhuma experiência acadêmica encontrada.</Typography>
+            )}
+
+            {isEditing && selectedExperience && (
+                <Dialog open={open} onClose={handleClose} fullWidth maxWidth="md">
+                    <DialogContent>
+                        <EditAcademicExperienceForm
+                            experience={selectedExperience}
+                            onChange={(updatedExperience) => setSelectedExperience(updatedExperience)}
+                            onSubmit={() => handleUpdateAcademicExperience(selectedExperience)}
+                            onCancel={() => setIsEditing(false)}
+                        />
+                    </DialogContent>
+                </Dialog>
+
             )}
         </Box>
     );

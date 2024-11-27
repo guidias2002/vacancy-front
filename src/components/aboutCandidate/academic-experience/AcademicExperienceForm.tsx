@@ -2,7 +2,7 @@ import { Box, Button, Dialog, DialogContent, DialogTitle } from "@mui/material";
 import FormAccordion from "../../FormAccordion";
 
 import '../../../styles/AcademicExperienceForm.css';
-import AcademicExperienceFormPopup from "../academic-experience/AcademicExperienceFormPopup";
+import AcademicExperienceFormPopup from "./AcademicExperienceFormPopup";
 import { useState } from "react";
 import AcademicExperienceList from "./AcademicExperienceList";
 import AddIcon from '@mui/icons-material/Add';
