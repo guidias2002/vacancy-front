@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Box, Typography, CircularProgress, Dialog, DialogContent } from "@mui/material";
+import { Box, Typography, CircularProgress, Dialog, DialogContent, DialogTitle } from "@mui/material";
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import EditIcon from '@mui/icons-material/Edit';
 import axios from "axios";
@@ -25,8 +25,7 @@ const AcademicExperienceList: React.FC = () => {
             return;
         }
 
-        axios
-            .get<AcademicExperience[]>(`http://localhost:8080/academicExperience/getAllExperienceAcademy/candidateId/${candidateId}`)
+        axios.get<AcademicExperience[]>(`http://localhost:8080/academicExperience/getAllExperienceAcademy/candidateId/${candidateId}`)
             .then((response) => {
                 setAcademicExperiences(response.data);
                 setLoading(false);
@@ -105,7 +104,7 @@ const AcademicExperienceList: React.FC = () => {
                         }}
                     >
                         <Box sx={{ display: 'flex', flexDirection: 'column', marginBottom: '20px' }}>
-                            <Typography>{experience.course}</Typography>
+                            <Typography fontWeight={'bold'}>{experience.course}</Typography>
                             <Typography>{experience.institution}</Typography>
                         </Box>
 
@@ -141,8 +140,8 @@ const AcademicExperienceList: React.FC = () => {
                             <DeleteOutlineIcon sx={{ cursor: 'pointer', color: 'red' }} onClick={() => handleDeleteAcademicExperience(experience.id)} />
 
                             <Box onClick={() => fetchAcademicExperienceById(experience.id)} sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer', gap: '10px' }}>
-                                <Typography sx={{ fontWeight: 'bold', color: '#87aa68'}}>Editar Informações</Typography>
-                                <EditIcon sx={{ color: '#87aa68' }}/>
+                                <Typography sx={{ fontWeight: 'bold', color: '#87aa68' }}>Editar Informações</Typography>
+                                <EditIcon sx={{ color: '#87aa68' }} />
                             </Box>
                         </Box>
                     </Box>
@@ -153,6 +152,7 @@ const AcademicExperienceList: React.FC = () => {
 
             {isEditing && selectedExperience && (
                 <Dialog open={open} onClose={handleClose} fullWidth maxWidth="md">
+                    <DialogTitle>Editar Experiência Acadêmica</DialogTitle>
                     <DialogContent>
                         <EditAcademicExperienceForm
                             experience={selectedExperience}

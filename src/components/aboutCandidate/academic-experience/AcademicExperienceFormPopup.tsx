@@ -70,15 +70,19 @@ const AcademicExperienceFormPopup: React.FC<AcademicExperienceFormPopupProps> = 
             return;
         }
 
-        // Se não houver erros, limpa os erros e envia os dados
         setErrors({});
         handleSubmit();
         onClose();
     };
 
     return (
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-            <Box>
+        <Box sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 2,
+            padding: '10px 0'
+        }}>
+            <Box sx={{ display: 'flex', flexDirection: "column", gap: 2 }}>
                 <TextField
                     label="Curso"
                     name="course"
@@ -88,8 +92,7 @@ const AcademicExperienceFormPopup: React.FC<AcademicExperienceFormPopupProps> = 
                     helperText={errors.course}
                     fullWidth
                 />
-            </Box>
-            <Box>
+
                 <TextField
                     label="Instituição de ensino"
                     name="institution"
@@ -199,7 +202,17 @@ const AcademicExperienceFormPopup: React.FC<AcademicExperienceFormPopupProps> = 
                 <Button sx={{ bgcolor: "#87aa68", color: "white" }} variant="contained" onClick={handleSave}>
                     Salvar
                 </Button>
-                <Button variant="outlined" onClick={onClose}>
+
+                <Button variant="outlined" sx={{
+                    color: "#87aa68",
+                    borderColor: '#87aa68',
+                    "&:hover": {
+                        backgroundColor: "transparent",
+                        borderColor: "#87aa68",
+                    }
+                }}
+                    onClick={onClose}
+                >
                     Cancelar
                 </Button>
             </Box>

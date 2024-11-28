@@ -75,7 +75,6 @@ const EditAcademicExperienceForm: React.FC<EditAcademicExperienceFormProps> = ({
             return;
         }
 
-        // Se não houver erros, limpa os erros e envia os dados
         setErrors({});
         onSubmit();
     };
@@ -84,44 +83,43 @@ const EditAcademicExperienceForm: React.FC<EditAcademicExperienceFormProps> = ({
     return (
         <Box
             sx={{
-                border: "1px solid #ddd",
-                borderRadius: "8px",
-                padding: "16px",
-                backgroundColor: "#f9f9f9",
-                marginBottom: "20px",
+                display: "flex",
+                flexDirection: "column",
+                
+                gap: 2
             }}
         >
-            <Typography variant="h6">Editar Experiência Acadêmica</Typography>
+            <Box sx={{ display: 'flex', flexDirection: "column" }}>
+                <TextField
+                    label="Curso"
+                    value={experience.course}
+                    onChange={(e) =>
+                        onChange({
+                            ...experience,
+                            course: e.target.value,
+                        })
+                    }
+                    error={!!errors.course}
+                    helperText={errors.course}
+                    fullWidth
+                    margin="normal"
+                />
 
-            <TextField
-                label="Curso"
-                value={experience.course}
-                onChange={(e) =>
-                    onChange({
-                        ...experience,
-                        course: e.target.value,
-                    })
-                }
-                error={!!errors.course}
-                helperText={errors.course}
-                fullWidth
-                margin="normal"
-            />
-
-            <TextField
-                label="Instituição"
-                value={experience.institution}
-                onChange={(e) =>
-                    onChange({
-                        ...experience,
-                        institution: e.target.value,
-                    })
-                }
-                error={!!errors.institution}
-                helperText={errors.institution}
-                fullWidth
-                margin="normal"
-            />
+                <TextField
+                    label="Instituição"
+                    value={experience.institution}
+                    onChange={(e) =>
+                        onChange({
+                            ...experience,
+                            institution: e.target.value,
+                        })
+                    }
+                    error={!!errors.institution}
+                    helperText={errors.institution}
+                    fullWidth
+                    margin="normal"
+                />
+            </Box>
 
             <Box sx={{ display: "flex", gap: 4 }}>
                 <Autocomplete
@@ -255,18 +253,27 @@ const EditAcademicExperienceForm: React.FC<EditAcademicExperienceFormProps> = ({
                 />
             </Box>
 
-            <Button
-                variant="contained"
-                color="primary"
-                onClick={handleSave}
-                sx={{ marginRight: 1 }}
-            >
-                Salvar Alterações
-            </Button>
+            <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2 }}>
+                <Button
+                    sx={{ bgcolor: "#87aa68", color: "white" }} variant="contained"
+                    onClick={handleSave}
+                >
+                    Salvar Alterações
+                </Button>
 
-            <Button variant="outlined" color="secondary" onClick={onCancel}>
-                Cancelar
-            </Button>
+                <Button variant="outlined" sx={{
+                    color: "#87aa68",
+                    borderColor: '#87aa68',
+                    "&:hover": {
+                        backgroundColor: "transparent",
+                        borderColor: "#87aa68",
+                    }
+                }}
+                    onClick={onCancel}
+                >
+                    Cancelar
+                </Button>
+            </Box>
         </Box>
     );
 };
