@@ -1,140 +1,50 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
+import { ProfessionalExperience } from '../types/ProfessionalExperience';
 
-interface ProfessionalExperienceData {
-id: string;
-  enterprise: string;
-  position: string;
-  monthStart: string;
-  yearStart: string;
-  monthEnd: string | null;
-  yearEnd: string | null;
-  isCurrentJob: boolean;
-  description: string;
-}
-
-interface Errors {
-  [key: string]: string;
-}
 
 const useProfessionalExperienceForm = (candidateId: string | null) => {
-  const [experiences, setExperiences] = useState<ProfessionalExperienceData[]>([]);
-  const [errors, setErrors] = useState<Errors[]>([]);
-  const [isSaved, setIsSaved] = useState(false);
-  const [successMessageOpen, setSuccessMessageOpen] = useState(false);
+  const [professionalExperience, setProfessionalExperience] = useState<ProfessionalExperience>({
+    id: 0,
+    enterprise: "",
+    position: "",
+    monthStart: "",
+    yearStart: 0,
+    monthEnd: "",
+    yearEnd: 0,
+    isCurrentJob: false,
+    description: "",
+  });
 
-  const fetchProfessionalExperiences = async () => {
-    if (!candidateId) return;
-    try {
-      const response = await axios.get(`http://localhost:8080/professionalExperience/getAllByCandidateId/${candidateId}`);
-      setExperiences(response.data); 
-    } catch (error) {
-      console.error("Erro ao buscar experiências profissionais:", error);
-      alert("Erro ao buscar experiências profissionais.");
-    }
-  };
-
-  useEffect(() => {
-    fetchProfessionalExperiences();
-  }, [candidateId]);
-
-  const handleChange = (index: number, name: keyof ProfessionalExperienceData, value: string | boolean) => {
-    setExperiences((prev) => {
-      const updatedExperiences = [...prev];
-      updatedExperiences[index] = {
-        ...updatedExperiences[index],
-        [name]: value,
-      };
-      return updatedExperiences;
-    });
-  };
-
-  const handleCheckboxChange = (index: number, isChecked: boolean) => {
-    setExperiences((prev) => {
-      const updatedExperiences = [...prev];
-      updatedExperiences[index] = {
-        ...updatedExperiences[index],
-        isCurrentJob: isChecked,
-        monthEnd: isChecked ? null : updatedExperiences[index].monthEnd,
-        yearEnd: isChecked ? null : updatedExperiences[index].yearEnd,
-      };
-      return updatedExperiences;
-    });
-  };
-
-  const handleAddExperience = () => {
-    setExperiences((prev) => [
-      ...prev,
-      {
-        id: '',
-        enterprise: '',
-        position: '',
-        monthStart: '',
-        yearStart: '',
-        monthEnd: '',
-        yearEnd: '',
-        isCurrentJob: false,
-        description: '',
-      },
-    ]);
-  };
-
-  const handleRemoveExperience = async (index: number) => {
-    
-    const experienceId = experiences[index]?.id;
-    setExperiences((prev) => prev.filter((_, i) => i !== index));
-
-  try {
-    await axios.delete(`http://localhost:8080/professionalExperience/delete/${experienceId}`);
-    setExperiences((prev) => prev.filter((_, i) => i !== index));
-  } catch (error) {
-    console.error("Erro ao remover a experiência:", error);
-  }
-  };
-
-  const validate = () => {
-    const newErrors = experiences.map((experience) => {
-      const expErrors: Errors = {};
-      if (!experience.enterprise) expErrors.enterprise = 'Campo obrigatório';
-      if (!experience.description) expErrors.description = 'Campo obrigatório';
-      if (!experience.position) expErrors.position = 'Campo obrigatório';
-      if (!experience.monthStart) expErrors.monthStart = 'Campo obrigatório';
-      if (!experience.yearStart) expErrors.yearStart = 'Campo obrigatório';
-      if (!experience.isCurrentJob && !experience.monthEnd) expErrors.monthEnd = 'Campo obrigatório';
-      if (!experience.isCurrentJob && !experience.yearEnd) expErrors.yearEnd = 'Campo obrigatório';
-      return expErrors;
-    });
-    setErrors(newErrors);
-    return newErrors.every((error) => Object.keys(error).length === 0);
-  };
 
   const handleSubmit = async () => {
-    if (!validate()) return;
 
     try {
-      await axios.put(`http://localhost:8080/professionalExperience/saveOrUpdateExperience/${candidateId}`, experiences);
-      setIsSaved(true);
-
-      fetchProfessionalExperiences();
-      setSuccessMessageOpen(true);
+      await axios.post(`http://localhost:8080/professionalExperience/candidateId/${candidateId}`, professionalExperience);
+      console.log("salvo com sucesso")
+      window.location.reload();
     } catch (error) {
-      console.error('Erro ao cadastrar experiências profissionais:', error);
-      alert('Erro ao cadastrar experiências profissionais.');
+      console.log("erro ao salvar informações", error)
     }
+  }
+
+  const handleChange = (field: keyof ProfessionalExperience, value: any) => {
+    setProfessionalExperience((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
   };
+
+  
 
   return {
-    experiences,
-    errors,
-    isSaved,
-    handleChange,
-    handleCheckboxChange,
-    handleAddExperience,
-    handleRemoveExperience,
     handleSubmit,
-    successMessageOpen,
-    setSuccessMessageOpen
-  };
+    handleChange,
+    professionalExperience,
+    setProfessionalExperience
+  }
+
+
 };
 
 export default useProfessionalExperienceForm;
