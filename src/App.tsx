@@ -8,6 +8,8 @@ import ProfilePageCandidate from './pages/candidate/ProfilePageCandidate'
 import VacancyPageCandidate from './pages/candidate/VacancyPageCandidate'
 import ApplicationsPageCandidate from './pages/candidate/ApplicationsPageCandidate'
 import VacancyDetailsPageCandidate from './pages/candidate/VacancyDetailsPageCandidate'
+import { CssBaseline, ThemeProvider } from '@mui/material'
+import theme from './theme'
 
 
 function App() {
@@ -23,17 +25,20 @@ function App() {
   ];
 
   return (
-    <Routes>
-      {routes.map(({ path, component, protected: isProtected }) => (
-        <Route
-          key={path}
-          path={path}
-          element={
-            isProtected ? <ProtectedRoute>{component}</ProtectedRoute> : component
-          }
-        />
-      ))}
-    </Routes>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Routes>
+        {routes.map(({ path, component, protected: isProtected }) => (
+          <Route
+            key={path}
+            path={path}
+            element={
+              isProtected ? <ProtectedRoute>{component}</ProtectedRoute> : component
+            }
+          />
+        ))}
+      </Routes>
+    </ThemeProvider>
   );
 }
 
