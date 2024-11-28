@@ -1,5 +1,7 @@
 import { Autocomplete, Box, Button, Checkbox, FormControlLabel, TextField } from "@mui/material";
 import useProfessionalExperienceForm from "../../../hooks/useProfessionalExperienceForm";
+import { validateProfessionalExperience } from "../../../validations/ProfessionalExperienceFormValidation";
+import { useState } from "react";
 
 interface ProfessionalExperienceFormPopupProps {
     onClose: () => void;
@@ -7,6 +9,7 @@ interface ProfessionalExperienceFormPopupProps {
 
 const ProfessionalExperienceFormPopup: React.FC<ProfessionalExperienceFormPopupProps> = ({ onClose }) => {
     const candidateId = localStorage.getItem("candidateId");
+    const [errors, setErrors] = useState<Record<string, string>>({});
 
     const { handleSubmit, handleChange, professionalExperience, setProfessionalExperience } = useProfessionalExperienceForm(candidateId);
 
@@ -32,6 +35,21 @@ const ProfessionalExperienceFormPopup: React.FC<ProfessionalExperienceFormPopupP
 
 
     const handleSave = () => {
+        const validationErrors = validateProfessionalExperience(
+            professionalExperience,
+            months
+        );
+
+        if (validationErrors.length > 0) {
+            const errorMap: Record<string, string> = {};
+            validationErrors.forEach((error) => {
+                errorMap[error.field] = error.message;
+            });
+            setErrors(errorMap);
+            return;
+        }
+
+        setErrors({});
         handleSubmit();
         onClose();
     };
@@ -57,22 +75,22 @@ const ProfessionalExperienceFormPopup: React.FC<ProfessionalExperienceFormPopupP
 
             <Box sx={{ display: 'flex', flexDirection: "column", gap: 2 }}>
                 <TextField
-                    label="Position"
+                    label="Cargo"
                     name="position"
                     value={professionalExperience?.position}
                     onChange={(e) => handleChange("position", e.target.value)}
-                    //error={!!errors.course}
-                    //helperText={errors.course}
+                    error={!!errors.position}
+                    helperText={errors.position}
                     fullWidth
                 />
 
                 <TextField
-                    label="Enterprise"
+                    label="Empresa"
                     name="enterprise"
                     value={professionalExperience?.enterprise}
                     onChange={(e) => handleChange("enterprise", e.target.value)}
-                    //error={!!errors.institution}
-                    //helperText={errors.institution}
+                    error={!!errors.enterprise}
+                    helperText={errors.enterprise}
                     fullWidth
                 />
             </Box>
@@ -89,8 +107,8 @@ const ProfessionalExperienceFormPopup: React.FC<ProfessionalExperienceFormPopupP
                             <TextField
                                 {...params}
                                 label="Mês de Início"
-                            //error={!!errors[index]?.monthStart}
-                            //helperText={errors[index]?.monthStart}
+                                error={!!errors.monthStart}
+                                helperText={errors.monthStart}
                             />
                         )}
                     />
@@ -105,8 +123,8 @@ const ProfessionalExperienceFormPopup: React.FC<ProfessionalExperienceFormPopupP
                             <TextField
                                 {...params}
                                 label="Ano de Início"
-                            //error={!!errors[index]?.yearStart}
-                            //helperText={errors[index]?.yearStart}
+                                error={!!errors.yearStart}
+                                helperText={errors.yearStart}
                             />
                         )}
                     />
@@ -129,9 +147,9 @@ const ProfessionalExperienceFormPopup: React.FC<ProfessionalExperienceFormPopupP
                                 <TextField
                                     {...params}
                                     label="Mês de Término"
-                                //error={!!errors[index]?.monthEnd}
-                                //helperText={errors[index]?.monthEnd}
-                                //disabled={experience.isCurrentJob}
+                                    error={!!errors.monthEnd}
+                                    helperText={errors.monthEnd}
+                                    disabled={professionalExperience.isCurrentJob}
                                 />
                             )}
                         />
@@ -151,9 +169,9 @@ const ProfessionalExperienceFormPopup: React.FC<ProfessionalExperienceFormPopupP
                                 <TextField
                                     {...params}
                                     label="Ano de Término"
-                                //error={!!errors[index]?.yearEnd}
-                                //helperText={errors[index]?.yearEnd}
-                                //disabled={experience.isCurrentJob}
+                                    error={!!errors.yearEnd}
+                                    helperText={errors.yearEnd}
+                                    disabled={professionalExperience.isCurrentJob}
                                 />
                             )}
                         />
@@ -184,8 +202,8 @@ const ProfessionalExperienceFormPopup: React.FC<ProfessionalExperienceFormPopupP
                 value={professionalExperience.description}
                 onChange={(e) => handleChange('description', e.target.value)}
                 fullWidth
-            //error={!!errors[index]?.description}
-            //helperText={errors[index]?.description}
+                error={!!errors.description}
+                helperText={errors.description}
             />
 
             <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2 }}>
