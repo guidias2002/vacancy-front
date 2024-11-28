@@ -98,17 +98,20 @@ const AcademicExperienceList: React.FC = () => {
                     <Box
                         key={index}
                         sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
                             border: "1px solid #ddd",
                             borderRadius: "4px",
                             padding: "16px",
+                            gap: '14px'
                         }}
                     >
-                        <Box sx={{ display: 'flex', flexDirection: 'column', marginBottom: '20px' }}>
+                        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                             <Typography fontWeight={'bold'}>{experience.course}</Typography>
                             <Typography>{experience.institution}</Typography>
                         </Box>
 
-                        <Box sx={{ display: 'flex', marginBottom: '20px' }}>
+                        <Box sx={{ display: 'flex' }}>
                             <Box sx={{ width: '50%' }}>
                                 <Typography color='#636362'>Nível</Typography>
                                 <Typography>{experience.level}</Typography>
