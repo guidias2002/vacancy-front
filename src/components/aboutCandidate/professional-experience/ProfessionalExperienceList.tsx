@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { ProfessionalExperience } from "../../../types/ProfessionalExperience";
-import { Box, Typography } from "@mui/material";
+import { Box, Divider, Typography } from "@mui/material";
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import EditIcon from '@mui/icons-material/Edit';
 
@@ -86,23 +86,62 @@ const ProfessionalExperienceList: React.FC = () => {
         <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
             {professionalExperiences && professionalExperiences.length > 0 ? (
                 professionalExperiences.map((experience, index) => (
+
                     <Box
                         key={index}
                         sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
                             border: "1px solid #ddd",
                             borderRadius: "4px",
                             padding: "16px",
+                            gap: '14px'
                         }}
                     >
-                        {experience.position}
-                        {experience.enterprise}
-                        {experience.monthStart}
-                        {experience.yearStart}
-                        {experience.monthEnd}
-                        {experience.yearEnd}
-                        {experience.isCurrentJob}
-                        {experience.description}
 
+                        <Typography sx={{ color: '#87aa68', fontWeight: 'bold' }}>Expriência profissional {index + 1}</Typography>
+
+                        <Divider/>
+
+                        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                            <Typography fontWeight={'bold'}>{experience.position}</Typography>
+                            <Typography>{experience.enterprise}</Typography>
+                        </Box>
+
+                        <Box sx={{ display: 'flex' }}>
+                            <Box sx={{ width: '50%' }}>
+                                <Typography color='#636362'>Início</Typography>
+                                <Typography>
+                                    {experience.monthStart} {experience.yearStart}
+                                </Typography>
+                            </Box>
+
+                            <Box sx={{ width: '50%' }}>
+                                <Typography color='#636362'>Até</Typography>
+
+                                {experience.isCurrentJob ?
+                                    <Typography>
+                                        Trabalho atual
+                                    </Typography> :
+                                    <Typography>
+                                        {experience.monthEnd} {experience.yearEnd}
+                                    </Typography>
+                                }
+
+                            </Box>
+                        </Box>
+
+
+                        {experience.isCurrentJob}
+
+                        <Box sx={{ display: 'flex' }}>
+                            <Box sx={{ width: '50%' }}>
+                                <Typography color='#636362'>Descrição</Typography>
+                                <Typography>
+                                    {experience.description}
+                                </Typography>
+                            </Box>
+                        </Box>
 
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', textAlign: 'center', marginTop: '20px' }}>
                             <DeleteOutlineIcon sx={{ cursor: 'pointer', color: 'red' }} onClick={() => handleDeleteAcademicExperience(experience.id)} />
