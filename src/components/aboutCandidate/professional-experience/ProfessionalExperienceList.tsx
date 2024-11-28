@@ -1,6 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { ProfessionalExperience } from "../../../types/ProfessionalExperience";
+import { Box, Typography } from "@mui/material";
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import EditIcon from '@mui/icons-material/Edit';
 
 
 const ProfessionalExperienceList: React.FC = () => {
@@ -50,7 +53,7 @@ const ProfessionalExperienceList: React.FC = () => {
     const getProfessionalExperienceById = async (id: number) => {
         try {
             const response = await axios.get<ProfessionalExperience>(
-                `http://localhost:8080/academicExperience/getAcademicExperienceById/${id}`
+                `http://localhost:8080/professionalExperience/professionalExperienceId/${id}`
             );
             setSelectedExperience(response.data);
             setIsEditing(true);
@@ -80,9 +83,41 @@ const ProfessionalExperienceList: React.FC = () => {
     };
 
     return (
-        <>
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+            {professionalExperiences && professionalExperiences.length > 0 ? (
+                professionalExperiences.map((experience, index) => (
+                    <Box
+                        key={index}
+                        sx={{
+                            border: "1px solid #ddd",
+                            borderRadius: "4px",
+                            padding: "16px",
+                        }}
+                    >
+                        {experience.position}
+                        {experience.enterprise}
+                        {experience.monthStart}
+                        {experience.yearStart}
+                        {experience.monthEnd}
+                        {experience.yearEnd}
+                        {experience.isCurrentJob}
+                        {experience.description}
 
-        </>
+
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', textAlign: 'center', marginTop: '20px' }}>
+                            <DeleteOutlineIcon sx={{ cursor: 'pointer', color: 'red' }} onClick={() => handleDeleteAcademicExperience(experience.id)} />
+
+                            <Box onClick={() => getProfessionalExperienceById(experience.id)} sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer', gap: '10px' }}>
+                                <Typography sx={{ fontWeight: 'bold', color: '#87aa68' }}>Editar Informações</Typography>
+                                <EditIcon sx={{ color: '#87aa68' }} />
+                            </Box>
+                        </Box>
+                    </Box>
+                ))
+            ) : (
+                <Typography>Nenhuma experiência profissional encontrada.</Typography>
+            )}
+        </Box>
     );
 }
 
