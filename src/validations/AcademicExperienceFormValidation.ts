@@ -33,7 +33,6 @@ export const validateAcademicExperience = (
         yearEnd,
     } = data;
 
-    // Campo obrigatório
     if (!data.course) {
         errors.push({ field: "course", message: "O campo 'Curso' é obrigatório." });
     }
@@ -59,7 +58,7 @@ export const validateAcademicExperience = (
         errors.push({ field: "yearEnd", message: "O campo 'Ano de término' é obrigatório." });
     }
 
-    // Validação de período
+
     if (yearStart > yearEnd) {
         errors.push({ field: "yearStart", message: "O ano de início não pode ser superior ao ano de término." });
     } else if (yearStart === yearEnd) {
@@ -70,7 +69,7 @@ export const validateAcademicExperience = (
         }
     }
 
-    // Validação de valores nos selects
+
     if (level && !courseLevels.includes(level)) {
         errors.push({ field: "level", message: "O nível selecionado não é válido." });
     }
