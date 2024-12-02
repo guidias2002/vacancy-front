@@ -1,9 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { ProfessionalExperience } from "../../../types/ProfessionalExperience";
-import { Box, Divider, Typography } from "@mui/material";
+import { Box, Dialog, DialogContent, DialogTitle, Divider, Typography } from "@mui/material";
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import EditIcon from '@mui/icons-material/Edit';
+import EditProfessionalExperienceForm from "./EditProfessionalExperienceFormProps";
 
 
 const ProfessionalExperienceList: React.FC = () => {
@@ -55,6 +56,7 @@ const ProfessionalExperienceList: React.FC = () => {
             const response = await axios.get<ProfessionalExperience>(
                 `http://localhost:8080/professionalExperience/professionalExperienceId/${id}`
             );
+            console.log(response.data)
             setSelectedExperience(response.data);
             setIsEditing(true);
             handleOpen();
@@ -101,7 +103,7 @@ const ProfessionalExperienceList: React.FC = () => {
 
                         <Typography sx={{ color: '#87aa68', fontWeight: 'bold' }}>Expriência profissional {index + 1}</Typography>
 
-                        <Divider/>
+                        <Divider />
 
                         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                             <Typography fontWeight={'bold'}>{experience.position}</Typography>
@@ -155,6 +157,21 @@ const ProfessionalExperienceList: React.FC = () => {
                 ))
             ) : (
                 <Typography>Nenhuma experiência profissional encontrada.</Typography>
+            )}
+
+            {isEditing && selectedExperience && (
+                <Dialog open={open} onClose={handleClose} fullWidth maxWidth="md">
+                    <DialogTitle>Editar Experiência Profissional</DialogTitle>
+                    <DialogContent>
+                        <EditProfessionalExperienceForm
+                            experience={selectedExperience}
+                            onChange={(updatedExperience) => setSelectedExperience(updatedExperience)}
+                            onSubmit={() => handleUpdateProfessionalExperience(selectedExperience)}
+                            onCancel={() => setIsEditing(false)}
+                        />
+                    </DialogContent>
+                </Dialog>
+
             )}
         </Box>
     );
