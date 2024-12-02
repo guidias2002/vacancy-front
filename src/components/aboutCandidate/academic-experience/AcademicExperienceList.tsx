@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Box, Typography, CircularProgress, Dialog, DialogContent, DialogTitle } from "@mui/material";
+import { Box, Typography, CircularProgress, Dialog, DialogContent, DialogTitle, Divider } from "@mui/material";
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import EditIcon from '@mui/icons-material/Edit';
 import axios from "axios";
@@ -106,6 +106,11 @@ const AcademicExperienceList: React.FC = () => {
                             gap: '14px'
                         }}
                     >
+
+                        <Typography sx={{ color: '#87aa68', fontWeight: 'bold' }}>Expriência acadêmica {index + 1}</Typography>
+
+                        <Divider/>
+
                         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                             <Typography fontWeight={'bold'}>{experience.course}</Typography>
                             <Typography>{experience.institution}</Typography>
