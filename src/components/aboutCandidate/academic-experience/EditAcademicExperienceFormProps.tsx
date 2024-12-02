@@ -1,4 +1,4 @@
-import { Box, Typography, TextField, Button, Autocomplete } from '@mui/material';
+import { Box, TextField, Button, Autocomplete } from '@mui/material';
 import AcademicExperience from '../../../types/AcademicExperience';
 import { validateAcademicExperience } from "../../../validations/AcademicExperienceFormValidation";
 import { useState } from 'react';
