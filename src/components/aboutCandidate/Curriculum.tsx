@@ -4,6 +4,7 @@ import '../../styles/Curriculum.css';
 import Title from "../Title";
 import AcademicExperienceForm from "./academic-experience/AcademicExperienceForm";
 import ProfessionalExperienceForm from "./professional-experience/ProfessionalExperienceForm";
+import SkillForm from "./skill/SkillForm";
 
 const Curriculum = () => {
 
@@ -16,6 +17,7 @@ const Curriculum = () => {
             <AboutMeForm/>
             <ProfessionalExperienceForm/>
             <AcademicExperienceForm/>
+            <SkillForm/>
         </div>
     )
 }
