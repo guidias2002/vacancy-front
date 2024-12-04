@@ -3,6 +3,7 @@ import AboutMeForm from "../../components/aboutCandidate/AboutMeForm";
 import '../../styles/Curriculum.css';
 import Title from "../Title";
 import AcademicExperienceForm from "./academic-experience/AcademicExperienceForm";
+import LanguageComponent from "./language-experience/LanguageComponent";
 import ProfessionalExperienceForm from "./professional-experience/ProfessionalExperienceForm";
 import SkillForm from "./skill/SkillForm";
 
@@ -18,6 +19,7 @@ const Curriculum = () => {
             <ProfessionalExperienceForm/>
             <AcademicExperienceForm/>
             <SkillForm/>
+            <LanguageComponent/>
         </div>
     )
 }
