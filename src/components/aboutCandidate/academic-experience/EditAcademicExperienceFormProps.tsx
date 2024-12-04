@@ -85,7 +85,6 @@ const EditAcademicExperienceForm: React.FC<EditAcademicExperienceFormProps> = ({
             sx={{
                 display: "flex",
                 flexDirection: "column",
-                
                 gap: 2
             }}
         >
@@ -218,7 +217,7 @@ const EditAcademicExperienceForm: React.FC<EditAcademicExperienceFormProps> = ({
                     onChange={(_, value) =>
                         onChange({
                             ...experience,
-                            monthEnd: value ? value.label : "", // Salva o nome do mês
+                            monthEnd: value ? value.label : "",
                         })
                     }
                     renderInput={(params) =>
