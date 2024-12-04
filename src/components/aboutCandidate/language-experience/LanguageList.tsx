@@ -12,7 +12,8 @@ const LanguageList: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [editId, setEditId] = useState<number | null>(null);
-    const [language, setLanguage] = useState<Language[] | null>(null);
+    const [languageArray, setLanguagesArray] = useState<Language[] | null>(null);
+    const [language, setLanguage] = useState<Language | null>(null);
 
 
     const languages = [
@@ -60,7 +61,7 @@ const LanguageList: React.FC = () => {
 
         axios.get<Language[]>(`http://localhost:8080/language/getLanguagesByCandidateId/${candidateId}`)
             .then((response) => {
-                setLanguage(response.data);
+                setLanguagesArray(response.data);
                 setLoading(false);
             })
             .catch((error) => {
@@ -78,15 +79,41 @@ const LanguageList: React.FC = () => {
         }
     }
 
+    const handleEdit = (lang: Language) => {
+        setLanguage({ ...lang });
+        setEditId(lang.id);
+    };
+
     const handleChange = (field: keyof Language, value: string) => {
-        setLanguage((prev) => ({ ...prev, [field]: value }));
+        setLanguage((prev) => (prev ? { ...prev, [field]: value } : null));
+    };
+
+    const handleUpdate = async (id: number) => {
+
+        try {
+            const response = await axios.put<Language>(
+                `http://localhost:8080/language/updateLanguage/languageId/${id}`,
+                language
+            );
+    
+            setLanguage(response.data);
+    
+            setLanguagesArray((prev) =>
+                prev ? prev.map((lang) => (lang.id === id ? response.data : lang)) : null
+            );
+
+            setEditId(0);
+
+        } catch (error) {
+            console.log("Erro ao atualizar idioma/nível.", error);
+        }
     };
 
 
     return (
         <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 2 }}>
-            {language && language.length > 0 ? (
-                language.map((lang, index) => (
+            {languageArray && languageArray.length > 0 ? (
+                languageArray.map((lang, index) => (
                     <>
                         {editId === lang.id ?
 
@@ -99,8 +126,10 @@ const LanguageList: React.FC = () => {
                                     <FormControl fullWidth>
                                         <Autocomplete
                                             options={languages}
-                                            value={lang.language}
-                                            onChange={(event, newValue) => handleChange("language", newValue || "")}
+                                            value={language?.language || ""}
+                                            onChange={(event, newValue) =>
+                                                handleChange("language", newValue || "")
+                                            }
                                             renderInput={(params) => <TextField {...params} label="Idioma" />}
                                             fullWidth
                                         />
@@ -109,8 +138,10 @@ const LanguageList: React.FC = () => {
                                     <FormControl fullWidth>
                                         <Autocomplete
                                             options={levels}
-                                            value={lang.level}
-                                            onChange={(event, newValue) => handleChange("level", newValue || "")}
+                                            value={language?.level || ""}
+                                            onChange={(event, newValue) =>
+                                                handleChange("level", newValue || "")
+                                            }
                                             renderInput={(params) => <TextField {...params} label="Nível" />}
                                             fullWidth
                                         />
@@ -130,7 +161,12 @@ const LanguageList: React.FC = () => {
                                         Cancelar
                                     </Button>
 
-                                    <Button sx={{ color: 'white', bgcolor: '#87aa68' }}>Salvar</Button>
+                                    <Button
+                                        onClick={() => handleUpdate(lang.id)}
+                                        sx={{ color: 'white', bgcolor: '#87aa68' }}
+                                    >
+                                        Salvar
+                                    </Button>
                                 </Box>
                             </Box> :
 
@@ -150,7 +186,10 @@ const LanguageList: React.FC = () => {
                                 <Typography>{lang.language}</Typography>
                                 <Typography sx={{ textAlign: 'left' }}>{lang.level}</Typography>
 
-                                <EditOutlinedIcon key={index} onClick={() => setEditId(lang.id)} sx={{ cursor: 'pointer' }} />
+                                <EditOutlinedIcon
+                                    onClick={() => handleEdit(lang)}
+                                    sx={{ cursor: 'pointer' }}
+                                />
                             </Box>}
                     </>
                 ))
