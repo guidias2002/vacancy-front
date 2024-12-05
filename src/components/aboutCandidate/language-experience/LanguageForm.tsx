@@ -14,6 +14,7 @@ const LanguageForm: React.FC = () => {
         language: "",
         level: ""
     });
+    const [errors, setErrors] = useState({ language: '', level: '' });
 
     const languages = [
         "Inglês",
@@ -52,9 +53,22 @@ const LanguageForm: React.FC = () => {
 
     const handleChange = (field: keyof Language, value: string) => {
         setLanguage((prev) => ({ ...prev, [field]: value }));
+        setErrors({ ...errors, [field]: value ? '' : 'Campo obrigatório' });
     };
 
     const handleSubmit = async () => {
+        const newErrors = {
+            language: language.language ? '' : 'Campo obrigatório',
+            level: language.level ? '' : 'Campo obrigatório',
+        };
+
+        setErrors(newErrors);
+
+        if (!newErrors.language && !newErrors.level) {
+            console.log("Dados enviados:", language);
+            setCreateLanguage(false);
+        }
+
         try {
             await axios.post(`http://localhost:8080/language/candidateId/${candidateId}`, language);
 
@@ -80,6 +94,7 @@ const LanguageForm: React.FC = () => {
                         gap: 2,
                         width: '100%',
                         margin: "0 auto",
+                        alignItems: 'flex-start',
                     }}
                 >
                     <FormControl fullWidth>
@@ -87,8 +102,14 @@ const LanguageForm: React.FC = () => {
                             options={languages}
                             value={language.language}
                             onChange={(event, newValue) => handleChange("language", newValue || "")}
-                            renderInput={(params) => <TextField {...params} label="Idioma" />}
-                            fullWidth
+                            renderInput={(params) =>
+                                <TextField
+                                    {...params}
+                                    label="Idioma"
+                                    error={!!errors.language}
+                                    helperText={errors.language}
+                                />}
+                            size='small'
                         />
                     </FormControl>
 
@@ -97,13 +118,23 @@ const LanguageForm: React.FC = () => {
                             options={levels}
                             value={language.level}
                             onChange={(event, newValue) => handleChange("level", newValue || "")}
-                            renderInput={(params) => <TextField {...params} label="Nível" />}
-                            fullWidth
+                            renderInput={(params) =>
+                                <TextField
+                                    {...params}
+                                    label="Nível"
+                                    error={!!errors.level}
+                                    helperText={errors.level}
+                                />}
+                            size='small'
                         />
                     </FormControl>
 
                     <Button variant="contained" onClick={handleSubmit} sx={{ bgcolor: "#87aa68", color: "white", width: '30%' }}>
                         Salvar
+                    </Button>
+
+                    <Button variant="contained" onClick={() => setCreateLanguage(false)} sx={{ color: '#6e6f70', width: '30%', bgcolor: 'white', border: '1px solid #6e6f70' }}>
+                        Cancelar
                     </Button>
                 </Box>
                 :
@@ -120,10 +151,8 @@ const LanguageForm: React.FC = () => {
                 >
                     <Typography sx={{ fontWeight: 'bold', color: '#87aa68' }}>Adicionar Idioma</Typography>
                     <AddIcon sx={{ color: '#87aa68' }} />
-                </Box>}
-
-
-
+                </Box>
+            }
         </>
     );
 }

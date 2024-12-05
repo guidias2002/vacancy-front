@@ -73,7 +73,7 @@ const LanguageList: React.FC = () => {
     const onDelete = async (id: number) => {
         try {
             axios.delete(`http://localhost:8080/language/delete/${id}`);
-            window.location.reload();
+            //window.location.reload();
         } catch (error) {
             console.log("Erro ao excluir idioma.", error);
         }
@@ -131,7 +131,7 @@ const LanguageList: React.FC = () => {
                                                 handleChange("language", newValue || "")
                                             }
                                             renderInput={(params) => <TextField {...params} label="Idioma" />}
-                                            fullWidth
+                                            size='small'
                                         />
                                     </FormControl>
 
@@ -143,7 +143,7 @@ const LanguageList: React.FC = () => {
                                                 handleChange("level", newValue || "")
                                             }
                                             renderInput={(params) => <TextField {...params} label="Nível" />}
-                                            fullWidth
+                                            size='small'
                                         />
                                     </FormControl>
                                 </Box>
@@ -151,13 +151,13 @@ const LanguageList: React.FC = () => {
                                 <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1 }}>
                                     <Button
                                         onClick={() => onDelete(lang.id)}
-                                        sx={{ color: 'white', bgcolor: 'red' }}>
+                                        sx={{ color: '#fa2f2f', bgcolor: 'white', border: '1px solid #fa2f2f' }}>
                                         Remover
                                     </Button>
 
                                     <Button
                                         onClick={() => setEditId(0)}
-                                        sx={{ color: 'black', bgcolor: 'white', border: '1px solid black' }}>
+                                        sx={{ color: '#a1a1a1', bgcolor: 'white', border: '1px solid #a1a1a1' }}>
                                         Cancelar
                                     </Button>
 
@@ -165,7 +165,7 @@ const LanguageList: React.FC = () => {
                                         onClick={() => handleUpdate(lang.id)}
                                         sx={{ color: 'white', bgcolor: '#87aa68' }}
                                     >
-                                        Salvar
+                                        Atualizar
                                     </Button>
                                 </Box>
                             </Box> :
@@ -188,7 +188,7 @@ const LanguageList: React.FC = () => {
 
                                 <EditOutlinedIcon
                                     onClick={() => handleEdit(lang)}
-                                    sx={{ cursor: 'pointer' }}
+                                    sx={{ cursor: 'pointer', color: '#87aa68' }}
                                 />
                             </Box>}
                     </>
