@@ -70,7 +70,6 @@ main {
     color: #333;
 }
 
-/* Botão */
 button {
     margin-top: 20px;
     padding: 10px 20px;
@@ -82,11 +81,6 @@ button {
     font-size: 1rem;
 }
 
-button:hover {
-    background-color: rgb(158, 187, 136);
-}
-
-/* section more-information */
 .more-information {
     max-width: 800px;
     padding: 20px;
