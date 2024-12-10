@@ -1,5 +1,5 @@
 import SidebarCandidate from "../../components/SidebarCandidate";
-import VacancyDetails from "../../components/vacancy/VacancyDetails";
+import VacancyDetails from "../../components/candidate/vacancy/VacancyDetails";
 import '../../styles/VacancyDetailPage.css'
 
 const VacancyDetailsPageCandidate = () => {

@@ -1,6 +1,6 @@
 import SidebarCandidate from "../../components/SidebarCandidate"
 import Title from "../../components/Title";
-import VacancyList from "../../components/vacancy/VacancyList";
+import VacancyList from "../../components/candidate/vacancy/VacancyList";
 import '../../styles/VacancyPageCandidate.css';
 
 const VacancyPageCandidate = () => {

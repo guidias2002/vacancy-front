@@ -29,8 +29,8 @@ export const useCandidateLoginForm = () => {
 
     try {
       const response = await axios.post(API_URL, loginData);
-      const { candidateName, candidateId, token, accountType } = response.data;
-      login(candidateName, candidateId, token, accountType); 
+      const { userName, userId, token, accountType } = response.data;
+      login(userName, userId, token, accountType); 
       navigate('/dashboard-candidate'); 
     } catch (error) {
       setError("Erro de autenticação. Verifique suas credenciais e tente novamente.");

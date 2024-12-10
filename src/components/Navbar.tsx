@@ -4,7 +4,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const Navbar = () => {
 
-    const candidateName = localStorage.getItem("candidateName");
+    const candidateName = localStorage.getItem("userName");
 
     return (
         <AppBar

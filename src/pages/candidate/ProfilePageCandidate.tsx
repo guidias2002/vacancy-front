@@ -1,4 +1,4 @@
-import Curriculum from "../../components/aboutCandidate/Curriculum";
+import Curriculum from "../../components/candidate/aboutCandidate/Curriculum";
 import SidebarCandidate from "../../components/SidebarCandidate";
 
 import '../../styles/ProfilePageCandidate.css';

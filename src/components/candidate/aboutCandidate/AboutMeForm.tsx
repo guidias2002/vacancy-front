@@ -1,13 +1,13 @@
 import React from 'react';
 import { Box, TextField, Button, Snackbar, Alert } from '@mui/material';
-import useAboutMeForm from '../../hooks/useAboutMeForm';
-import FormAccordion from '../FormAccordion';
-import LocationSelect from '../LocationSelect';
-import candidateAboutMeData from '../../types/CandidateAboutMeData';
+import useAboutMeForm from '../../../hooks/useAboutMeForm';
+import FormAccordion from '../../FormAccordion';
+import LocationSelect from '../../LocationSelect';
+import candidateAboutMeData from '../../../types/CandidateAboutMeData';
 import InputMask from 'react-input-mask';
 
 const AboutMeForm: React.FC = () => {
-  const candidateId = localStorage.getItem("candidateId");
+  const candidateId = localStorage.getItem("userId");
   const {
     candidate,
     errors,
@@ -32,7 +32,7 @@ const AboutMeForm: React.FC = () => {
   };
 
   return (
-    <FormAccordion title="Sobre Mim">
+    <FormAccordion title="Sobre mim">
       <Box
         component="form"
         onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}

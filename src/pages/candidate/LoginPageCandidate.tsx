@@ -1,4 +1,4 @@
-import CandidateLoginForm from "../../components/login/CandidateLoginForm";
+import CandidateLoginForm from "../../components/candidate/login/CandidateLoginForm";
 
 const LoginPage = () => {
 
