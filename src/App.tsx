@@ -11,29 +11,39 @@ import VacancyDetailsPageCandidate from './pages/candidate/VacancyDetailsPageCan
 import { CssBaseline, ThemeProvider } from '@mui/material'
 import theme from './theme'
 
+interface RouteConfig {
+  path: string;
+  component: JSX.Element;
+  isProtected: boolean;
+  accountType?: "CANDIDATE" | "ENTERPRISE";
+}
 
 function App() {
-  const routes = [
-    { path: '/', component: <HomePage /> },
-    { path: '/login', component: <LoginPage /> },
-    { path: '/register', component: <RegisterPage /> },
-    { path: '/dashboard-candidate', component: <DashboardCandidate />, protected: true },
-    { path: '/profile-candidate', component: <ProfilePageCandidate />, protected: true },
-    { path: '/vacancy', component: <VacancyPageCandidate />, protected: true },
-    { path: '/vacancy/:id', component: <VacancyDetailsPageCandidate />, protected: true },
-    { path: '/my-applications', component: <ApplicationsPageCandidate />, protected: true },
+  const routes: RouteConfig[] = [
+    { path: '/', component: <HomePage />, isProtected: false },
+    { path: '/login', component: <LoginPage />, isProtected: false },
+    { path: '/register', component: <RegisterPage />, isProtected: false },
+    { path: '/dashboard-candidate', component: <DashboardCandidate />, isProtected: true, accountType: 'CANDIDATE' },
+    { path: '/profile-candidate', component: <ProfilePageCandidate />, isProtected: true, accountType: 'CANDIDATE' },
+    { path: '/vacancy', component: <VacancyPageCandidate />, isProtected: true, accountType: 'CANDIDATE' },
+    { path: '/vacancy/:id', component: <VacancyDetailsPageCandidate />, isProtected: true, accountType: 'CANDIDATE' },
+    { path: '/my-applications', component: <ApplicationsPageCandidate />, isProtected: true, accountType: 'CANDIDATE' },
   ];
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Routes>
-        {routes.map(({ path, component, protected: isProtected }) => (
+        {routes.map(({ path, component, isProtected, accountType }) => (
           <Route
             key={path}
             path={path}
             element={
-              isProtected ? <ProtectedRoute>{component}</ProtectedRoute> : component
+              isProtected && accountType ? (
+                <ProtectedRoute accountType={accountType}>{component}</ProtectedRoute>
+              ) : (
+                component
+              )
             }
           />
         ))}

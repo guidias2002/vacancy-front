@@ -2,20 +2,21 @@ import React, { createContext, useContext, useEffect, useState, ReactNode } from
 import { useNavigate } from 'react-router-dom';
 
 interface AuthContextType {
-  candidateName: string | null;
-  candidateId: number | null;
+  userName: string | null;
+  userId: number | null;
   token: string | null;
   accountType: string | null;
-  login: (candidateName: string, candidateId:number, token: string, accountType: string) => void;
+  login: (userName: string, userId: number, token: string, accountType: string) => void;
   logout: () => void;
   isAuthenticatedCandidate: boolean;
+  isAuthenticatedEnterprise: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [candidateId, setCandidateId] = useState<number | null>(null);
-  const [candidateName, setCandidateName] = useState<string | null>(null);
+  const [userId, setUserId] = useState<number | null>(null);
+  const [userName, setUserName] = useState<string | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [accountType, setAccountType] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -24,15 +25,15 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   useEffect(() => {
     const storedToken = localStorage.getItem('authToken');
     const storedAccountType = localStorage.getItem('accountType');
-    const storedCandidateId = localStorage.getItem('candidateId');
-    const storedCandidateName = localStorage.getItem('candidateName');
+    const storedUserId = localStorage.getItem('userId');
+    const storedUserName = localStorage.getItem('userName');
 
     const publicRoutes = ['/', '/login', '/register'];
 
     if (!publicRoutes.includes(location.pathname)) {
-      if (storedToken && storedAccountType && storedCandidateId) {
-        setCandidateId(Number(storedCandidateId));
-        setCandidateName(storedCandidateName);
+      if (storedToken && storedAccountType && storedUserId) {
+        setUserId(Number(storedUserId));
+        setUserName(storedUserName);
         setToken(storedToken);
         setAccountType(storedAccountType);
       } else {
@@ -44,37 +45,48 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setLoading(false);
   }, [navigate, location.pathname]);
 
-  const login = (newCandidateName: string, newCandidateId: number, newToken: string, newAccountType: string) => {
-    setCandidateName(newCandidateName);
-    setCandidateId(newCandidateId);
+  const login = (newUserName: string, newUserId: number, newToken: string, newAccountType: string) => {
+    setUserName(newUserName);
+    setUserId(newUserId);
     setToken(newToken);
     setAccountType(newAccountType);
-    localStorage.setItem('candidateName', newCandidateName);
-    localStorage.setItem('candidateId', String(newCandidateId));
+    localStorage.setItem('userName', newUserName);
+    localStorage.setItem('userId', String(newUserId));
     localStorage.setItem('authToken', newToken);
     localStorage.setItem('accountType', newAccountType);
   };
 
   const logout = () => {
-
-    setCandidateName(null);
-    setCandidateId(null);
+    setUserName(null);
+    setUserId(null);
     setToken(null);
     setAccountType(null);
 
-    localStorage.removeItem('candidateName');
-    localStorage.removeItem('candidateId');
+    localStorage.removeItem('userName');
+    localStorage.removeItem('userId');
     localStorage.removeItem('authToken');
     localStorage.removeItem('accountType');
     navigate('/login');
   };
 
-  const isAuthenticatedCandidate = Boolean(candidateId && token && accountType === "CANDIDATE");
+  const isAuthenticatedCandidate = Boolean(userId && token && accountType === "CANDIDATE");
+  const isAuthenticatedEnterprise = Boolean(userId && token && accountType === "ENTERPRISE");
 
   if (loading) return <div>Loading...</div>;
 
   return (
-    <AuthContext.Provider value={{ candidateName, candidateId, token, accountType, login, logout, isAuthenticatedCandidate }}>
+    <AuthContext.Provider
+      value={{
+        userName,
+        userId,
+        token,
+        accountType,
+        login,
+        logout,
+        isAuthenticatedCandidate,
+        isAuthenticatedEnterprise,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
@@ -87,3 +99,4 @@ export const useAuth = (): AuthContextType => {
   }
   return context;
 };
+
