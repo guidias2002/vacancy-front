@@ -28,7 +28,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const storedUserId = localStorage.getItem('userId');
     const storedUserName = localStorage.getItem('userName');
 
-    const publicRoutes = ['/', '/login', '/register'];
+    const publicRoutes = ['/', '/login', '/register', '/login-enterprise', '/register-enterprise'];
 
     if (!publicRoutes.includes(location.pathname)) {
       if (storedToken && storedAccountType && storedUserId) {
@@ -66,7 +66,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     localStorage.removeItem('userId');
     localStorage.removeItem('authToken');
     localStorage.removeItem('accountType');
-    navigate('/login');
+
+    {accountType === 'CANDIDATE' ? navigate('/login') : navigate('/login-enterprise')}
   };
 
   const isAuthenticatedCandidate = Boolean(userId && token && accountType === "CANDIDATE");
