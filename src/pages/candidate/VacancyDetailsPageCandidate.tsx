@@ -1,4 +1,4 @@
-import SidebarCandidate from "../../components/SidebarCandidate";
+import SidebarCandidate from "../../components/Sidebar";
 import VacancyDetails from "../../components/candidate/vacancy/VacancyDetails";
 import '../../styles/VacancyDetailPage.css'
 
