@@ -10,6 +10,8 @@ import ApplicationsPageCandidate from './pages/candidate/ApplicationsPageCandida
 import VacancyDetailsPageCandidate from './pages/candidate/VacancyDetailsPageCandidate'
 import { CssBaseline, ThemeProvider } from '@mui/material'
 import theme from './theme'
+import LoginEnterprisePage from './pages/enterprise/LoginEnterprisePage'
+import DashboardEnterprise from './pages/enterprise/DashboardEnterprise'
 
 interface RouteConfig {
   path: string;
@@ -20,6 +22,9 @@ interface RouteConfig {
 
 function App() {
   const routes: RouteConfig[] = [
+
+    // candidate
+    
     { path: '/', component: <HomePage />, isProtected: false },
     { path: '/login', component: <LoginPage />, isProtected: false },
     { path: '/register', component: <RegisterPage />, isProtected: false },
@@ -28,6 +33,11 @@ function App() {
     { path: '/vacancy', component: <VacancyPageCandidate />, isProtected: true, accountType: 'CANDIDATE' },
     { path: '/vacancy/:id', component: <VacancyDetailsPageCandidate />, isProtected: true, accountType: 'CANDIDATE' },
     { path: '/my-applications', component: <ApplicationsPageCandidate />, isProtected: true, accountType: 'CANDIDATE' },
+
+    // enterprise
+
+    {path: '/login-enterprise', component: <LoginEnterprisePage />, isProtected: false},
+    {path: '/dashboard-enteprise', component: <DashboardEnterprise />, isProtected: true, accountType: 'ENTERPRISE'}
   ];
 
   return (
