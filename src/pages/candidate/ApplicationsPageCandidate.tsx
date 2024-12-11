@@ -1,5 +1,5 @@
-import CandidateApplicationList from "../../components/applications/CandidationApplicationList";
-import SidebarCandidate from "../../components/SidebarCandidate"
+import CandidateApplicationList from "../../components/candidate/applications/CandidationApplicationList";
+import SidebarCandidate from "../../components/Sidebar"
 import Title from "../../components/Title";
 import '../../styles/ApplicationPage.css'
 

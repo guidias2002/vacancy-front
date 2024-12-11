@@ -1,5 +1,5 @@
 import Navbar from "../../components/Navbar";
-import SidebarCandidate from "../../components/SidebarCandidate";
+import SidebarCandidate from "../../components/Sidebar";
 import '../../styles/DashboardPage.css';
 
 const DashboardCandidate = () => {
