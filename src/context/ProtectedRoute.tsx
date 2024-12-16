@@ -4,21 +4,28 @@ import { useAuth } from '../context/AuthProvider';
 
 interface ProtectedRouteProps {
   children: JSX.Element;
-  accountType: "CANDIDATE" | "ENTERPRISE";
+  isProtected: boolean;
+  accountType?: ("CANDIDATE" | "ENTERPRISE" | "RECRUITER")[];
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, accountType }) => {
-  const { isAuthenticatedCandidate, isAuthenticatedEnterprise } = useAuth();
+  const { isAuthenticatedCandidate, isAuthenticatedEnterprise, isAuthenticatedRecruiter } = useAuth();
 
-  if (accountType === "CANDIDATE" && isAuthenticatedCandidate) {
+  const isAuthenticated = (type: "CANDIDATE" | "ENTERPRISE" | "RECRUITER") => {
+    if (type === "CANDIDATE") return isAuthenticatedCandidate;
+    if (type === "ENTERPRISE") return isAuthenticatedEnterprise;
+    if (type === "RECRUITER") return isAuthenticatedRecruiter;
+    
+    return false;
+  };
+
+  if (accountType?.some(isAuthenticated)) {
     return children;
   }
 
-  if (accountType === "ENTERPRISE" && isAuthenticatedEnterprise) {
-    return children;
-  }
+  const redirectPath = accountType?.includes("CANDIDATE") ? "/login" : "/login-enterprise";
 
-  return <Navigate to={accountType === "CANDIDATE" ? "/login" : "/login-enterprise"} replace />;
+  return <Navigate to={redirectPath} replace />;
 };
 
 export default ProtectedRoute;

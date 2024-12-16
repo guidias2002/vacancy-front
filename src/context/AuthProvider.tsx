@@ -10,6 +10,7 @@ interface AuthContextType {
   logout: () => void;
   isAuthenticatedCandidate: boolean;
   isAuthenticatedEnterprise: boolean;
+  isAuthenticatedRecruiter: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -72,6 +73,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const isAuthenticatedCandidate = Boolean(userId && token && accountType === "CANDIDATE");
   const isAuthenticatedEnterprise = Boolean(userId && token && accountType === "ENTERPRISE");
+  const isAuthenticatedRecruiter = Boolean(userId && token && accountType === "RECRUITER");
 
   if (loading) return <div>Loading...</div>;
 
@@ -86,6 +88,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         logout,
         isAuthenticatedCandidate,
         isAuthenticatedEnterprise,
+        isAuthenticatedRecruiter,
       }}
     >
       {children}

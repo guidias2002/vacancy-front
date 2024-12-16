@@ -4,6 +4,7 @@ import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import CasesOutlinedIcon from '@mui/icons-material/CasesOutlined';
 import AccountTreeOutlinedIcon from '@mui/icons-material/AccountTreeOutlined';
 import ExitToAppOutlinedIcon from '@mui/icons-material/ExitToAppOutlined';
+import GroupOutlinedIcon from '@mui/icons-material/GroupOutlined';
 import { useAuth } from '../context/AuthProvider';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -28,10 +29,11 @@ const Sidebar = () => {
       { text: 'MINHAS CANDIDATURAS', icon: <AccountTreeOutlinedIcon />, path: '/my-applications' },
     ]
     : [
-      { text: 'INÍCIO', icon: <HomeOutlinedIcon />, path: '' },
-      { text: 'MEU PERFIL', icon: <PersonOutlinedIcon />, path: '' },
+      { text: 'INÍCIO', icon: <HomeOutlinedIcon />, path: '/dashboard-enteprise' },
+      { text: 'SOBRE', icon: <PersonOutlinedIcon />, path: '' },
       { text: 'MINHAS VAGAS', icon: <CasesOutlinedIcon />, path: '' },
-      { text: 'MINHAS CANDIDATURAS', icon: <AccountTreeOutlinedIcon />, path: '' },
+      { text: 'CANDIDATURAS', icon: <AccountTreeOutlinedIcon />, path: '' },
+      { text: 'PERFIS', icon: <GroupOutlinedIcon />, path: '' },
     ];
 
   return (
