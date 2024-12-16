@@ -12,12 +12,13 @@ import { CssBaseline, ThemeProvider } from '@mui/material'
 import theme from './theme'
 import LoginEnterprisePage from './pages/enterprise/LoginEnterprisePage'
 import DashboardEnterprise from './pages/enterprise/DashboardEnterprise'
+import LoginRecruiterPage from './pages/recruiter/LoginRecruiterPage'
 
 interface RouteConfig {
   path: string;
   component: JSX.Element;
   isProtected: boolean;
-  accountType?: "CANDIDATE" | "ENTERPRISE";
+  accountType?: ("CANDIDATE" | "ENTERPRISE" | "RECRUITER")[];
 }
 
 function App() {
@@ -28,16 +29,20 @@ function App() {
     { path: '/', component: <HomePage />, isProtected: false },
     { path: '/login', component: <LoginPage />, isProtected: false },
     { path: '/register', component: <RegisterPage />, isProtected: false },
-    { path: '/dashboard-candidate', component: <DashboardCandidate />, isProtected: true, accountType: 'CANDIDATE' },
-    { path: '/profile-candidate', component: <ProfilePageCandidate />, isProtected: true, accountType: 'CANDIDATE' },
-    { path: '/vacancy', component: <VacancyPageCandidate />, isProtected: true, accountType: 'CANDIDATE' },
-    { path: '/vacancy/:id', component: <VacancyDetailsPageCandidate />, isProtected: true, accountType: 'CANDIDATE' },
-    { path: '/my-applications', component: <ApplicationsPageCandidate />, isProtected: true, accountType: 'CANDIDATE' },
+    { path: '/dashboard-candidate', component: <DashboardCandidate />, isProtected: true, accountType: ['CANDIDATE'] },
+    { path: '/profile-candidate', component: <ProfilePageCandidate />, isProtected: true, accountType: ['CANDIDATE'] },
+    { path: '/vacancy', component: <VacancyPageCandidate />, isProtected: true, accountType: ['CANDIDATE'] },
+    { path: '/vacancy/:id', component: <VacancyDetailsPageCandidate />, isProtected: true, accountType: ['CANDIDATE'] },
+    { path: '/my-applications', component: <ApplicationsPageCandidate />, isProtected: true, accountType: ['CANDIDATE'] },
 
     // enterprise
 
     {path: '/login-enterprise', component: <LoginEnterprisePage />, isProtected: false},
-    {path: '/dashboard-enteprise', component: <DashboardEnterprise />, isProtected: true, accountType: 'ENTERPRISE'}
+    {path: '/dashboard-enteprise', component: <DashboardEnterprise />, isProtected: true, accountType: ['ENTERPRISE', 'RECRUITER']},
+
+    // recruiter
+
+    {path: '/login-recruiter', component: <LoginRecruiterPage />, isProtected: false},
   ];
 
   return (
@@ -50,7 +55,7 @@ function App() {
             path={path}
             element={
               isProtected && accountType ? (
-                <ProtectedRoute accountType={accountType}>{component}</ProtectedRoute>
+                <ProtectedRoute isProtected={isProtected} accountType={accountType}>{component}</ProtectedRoute>
               ) : (
                 component
               )
