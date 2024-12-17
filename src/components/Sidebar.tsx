@@ -33,7 +33,8 @@ const Sidebar = () => {
       { text: 'SOBRE', icon: <PersonOutlinedIcon />, path: '' },
       { text: 'MINHAS VAGAS', icon: <CasesOutlinedIcon />, path: '' },
       { text: 'CANDIDATURAS', icon: <AccountTreeOutlinedIcon />, path: '' },
-      { text: 'PERFIS', icon: <GroupOutlinedIcon />, path: '' },
+
+      accountType === 'ENTERPRISE' ? { text: 'PERFIS', icon: <GroupOutlinedIcon />, path: '/access-profile' } : '',
     ];
 
   return (
@@ -58,7 +59,8 @@ const Sidebar = () => {
       </Toolbar>
       <List sx={{ flexGrow: 1 }}>
         {items.map((item) => (
-          <ListItem key={item.text} disablePadding sx={{ mb: 1 }}>
+          <ListItem key={item.text}
+           disablePadding sx={{ mb: 1 }}>
             <ListItemButton
               component={Link}
               to={item.path}
