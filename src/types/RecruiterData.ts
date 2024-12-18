@@ -4,5 +4,7 @@ export default interface RecruiterData {
     email: string,
     enterpriseId: number,
     accountType: string,
-    invitationStatus: string
+    invitationStatus: string,
+    createdAt: string,
+    updatedAt: string,
 }
