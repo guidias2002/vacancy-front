@@ -77,8 +77,12 @@ const InvitationRecruiter: React.FC = () => {
             display: 'flex',
             flexDirection: 'column',
             width: '30%',
-            padding: '30px',
-            gap: 2
+            height: 'auto',
+            padding: '20px',
+            margin: '20px',
+            borderRadius: '5px',
+            gap: 2,
+            border: '1px solid rgba(151, 166, 138, 0.47)'
         }}>
 
             <Typography variant='h6'>
