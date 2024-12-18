@@ -1,10 +1,12 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Divider, Typography } from '@mui/material';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import RecruiterData from '../../../types/RecruiterData';
 
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import CloseIcon from '@mui/icons-material/Close';
+import PersonIcon from '@mui/icons-material/Person';
+import { GoTypography } from 'react-icons/go';
 
 const RecruiterDetails: React.FC<{ onBack: () => void; recruiterId: number }> = ({ onBack, recruiterId }) => {
 
@@ -12,6 +14,7 @@ const RecruiterDetails: React.FC<{ onBack: () => void; recruiterId: number }> = 
 
     const URL_RECRUITER_BY_ID = `http://localhost:8080/recruiter/findRecruiterById/${recruiterId}`;
     const URL_DISABLE_RECRUITER_ACCOUNT = `http://localhost:8080/enterprise/disableRecruiterAccount/enterpriseId/${entepriseId}/recruiterId/${recruiterId}`
+    const URL_ENABLE_RECRUITER_ACCOUNT = `http://localhost:8080/enterprise/enableRecruiterAccount/enterpriseId/${entepriseId}/recruiterId/${recruiterId}`
     const [recruiter, setRecruiter] = useState<RecruiterData | null>(null);
 
     useEffect(() => {
@@ -26,7 +29,7 @@ const RecruiterDetails: React.FC<{ onBack: () => void; recruiterId: number }> = 
 
     }, [recruiterId]);
 
-    const handleSubmit = async () => {
+    const disableRecruiterAccount = async () => {
 
         try {
             await axios.put(URL_DISABLE_RECRUITER_ACCOUNT)
@@ -34,6 +37,17 @@ const RecruiterDetails: React.FC<{ onBack: () => void; recruiterId: number }> = 
             console.log("Recrutador desabilitado com sucesso.")
         } catch (error) {
             console.log("Erro ao desabilitar recrutador.")
+        }
+    }
+
+    const enableRecruiterAccount = async () => {
+
+        try {
+            await axios.put(URL_ENABLE_RECRUITER_ACCOUNT)
+            window.location.reload();
+            console.log("Recrutador habilitado com sucesso.")
+        } catch (error) {
+            console.log("Erro ao habilitar recrutador.")
         }
     }
 
@@ -48,7 +62,8 @@ const RecruiterDetails: React.FC<{ onBack: () => void; recruiterId: number }> = 
                 margin: '20px',
                 borderRadius: '5px',
                 gap: 2,
-                border: '1px solid rgba(151, 166, 138, 0.47)'
+                border: '1px solid rgba(151, 166, 138, 0.47)',
+                boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px'
             }}>
 
             <Box
@@ -66,9 +81,22 @@ const RecruiterDetails: React.FC<{ onBack: () => void; recruiterId: number }> = 
                     sx={{
                         width: '100%',
                         display: 'flex',
-                        justifyContent: 'end'
+                        justifyContent: 'space-between',
+                        alignItems: 'center'
                     }}
                 >
+
+                    <Box
+                        sx={{ display: 'flex', flexDirection: 'column' }}
+                    >
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                            <PersonIcon sx={{ color: '#87aa68', fontSize: '20px' }} />
+                            <Typography variant='h6' sx={{ fontWeight: 'bold' }}>{recruiter?.name}</Typography>
+                        </Box>
+
+
+                    </Box>
+
                     <CloseIcon
                         onClick={onBack}
                         sx={{
@@ -80,14 +108,22 @@ const RecruiterDetails: React.FC<{ onBack: () => void; recruiterId: number }> = 
                         }} />
                 </Box>
 
+                <Divider sx={{ borderStyle: 'dashed', borderColor: '#87aa68' }} />
+
+                <Box>
+                    <Typography sx={{ fontWeight: 'bold', color: '#545252', fontSize: '11px', marginBottom: '3px' }}>CARGO</Typography>
+                    <Typography>{recruiter?.accountType === 'RECRUITER' ? 'Recrutador' : ''}</Typography>
+                </Box>
+
                 <Box
                     sx={{
                         display: 'flex',
                         justifyContent: 'space-between'
                     }}
                 >
+
                     <Box>
-                        <Typography>{recruiter?.name}</Typography>
+                        <Typography sx={{ fontWeight: 'bold', color: '#545252', fontSize: '11px', marginBottom: '3px' }}>EMAIL</Typography>
                         <Typography>{recruiter?.email}</Typography>
                     </Box>
 
@@ -111,34 +147,47 @@ const RecruiterDetails: React.FC<{ onBack: () => void; recruiterId: number }> = 
                                 fontSize: '14px'
                             }}
                         />
-                        <Typography>{recruiter?.invitationStatus}</Typography>
+                        <Typography sx={{ fontWeight: 'bold' }}>{recruiter?.invitationStatus}</Typography>
                     </Box>
                 </Box>
 
-                <Typography>{recruiter?.accountType === 'RECRUITER' ? 'Recrutador' : ''}</Typography>
-
                 <Box>
-                    <Typography>Criado</Typography>
+                    <Typography sx={{ fontWeight: 'bold', color: '#545252', fontSize: '11px', marginBottom: '3px' }}>CRIADO</Typography>
                     <Typography>{new Date(recruiter?.createdAt || '').toLocaleString()}</Typography>
                 </Box>
 
                 <Box>
-                    <Typography>Última atualização</Typography>
+                    <Typography sx={{ fontWeight: 'bold', color: '#545252', fontSize: '11px', marginBottom: '3px' }}>ÚLTIMA ATUALIZAÇÃO</Typography>
                     <Typography>{new Date(recruiter?.updatedAt || '').toLocaleString()}</Typography>
                 </Box>
 
             </Box>
 
 
-            {recruiter?.invitationStatus === 'INATIVO' ?
-                <Button sx={{ mt: 2, bgcolor: 'fff', color: '#87aa68', border: '1px solid #87aa68' }}>
-                    Habilitar Recrutador
-                </Button>
-                :
-                <Button onClick={handleSubmit} sx={{ mt: 2, bgcolor: 'fff', color: 'red', border: '1px solid red' }}>
-                    Desabilitar Recrutador
-                </Button>   
-            }
+            <Box
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column'
+                }}
+            >
+                {recruiter?.invitationStatus !== 'INATIVO' ?
+                    <Button sx={{ mt: 2, bgcolor: 'fff', color: '#87aa68', border: '1px solid #87aa68' }}>
+                        Reenviar Email
+                    </Button>
+                    :
+                    ''
+                }
+
+                {recruiter?.invitationStatus === 'INATIVO' ?
+                    <Button onClick={enableRecruiterAccount} sx={{ mt: 2, bgcolor: 'fff', color: '#87aa68', border: '1px solid #87aa68' }}>
+                        Habilitar Recrutador
+                    </Button>
+                    :
+                    <Button onClick={disableRecruiterAccount} sx={{ mt: 2, bgcolor: 'fff', color: 'red', border: '1px solid red' }}>
+                        Desabilitar Recrutador
+                    </Button>
+                }
+            </Box>
 
         </Box>
     )
