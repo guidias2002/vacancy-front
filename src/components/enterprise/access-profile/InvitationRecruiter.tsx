@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react'
 import InvitationRecruiterData from '../../../types/InvitationRecruiterData';
-import { Box, Button, TextField } from '@mui/material';
+import { Box, Button, Divider, TextField, Typography } from '@mui/material';
 
 const InvitationRecruiter: React.FC = () => {
 
@@ -41,7 +41,7 @@ const InvitationRecruiter: React.FC = () => {
             setErrors(validationErrors);
             return;
         }
-        
+
         setLoading(true);
 
         try {
@@ -73,7 +73,20 @@ const InvitationRecruiter: React.FC = () => {
 
 
     return (
-        <Box>
+        <Box sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            width: '30%',
+            padding: '30px',
+            gap: 2
+        }}>
+
+            <Typography variant='h6'>
+                Convidar recrutador
+            </Typography>
+
+            <Divider sx={{ backgroundColor: 'rgba(151, 166, 138, 0.47)' }} />
+
             <TextField
                 label="Nome"
                 name="name"
@@ -96,7 +109,11 @@ const InvitationRecruiter: React.FC = () => {
                 size="small"
             />
 
-            <Button onClick={handleSubmit} disabled={loading}>
+            <Button
+                sx={{ bgcolor: '#87aa68', color: 'white' }}
+                onClick={handleSubmit}
+                disabled={loading}
+            >
                 {loading ? "Enviando..." : "Enviar"}
             </Button>
         </Box>
