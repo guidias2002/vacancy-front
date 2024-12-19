@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Typography } from '@mui/material';
+import { Alert, Box, Button, CircularProgress, Divider, Paper, Snackbar, Typography } from '@mui/material';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import RecruiterData from '../../../types/RecruiterData';
@@ -13,9 +13,15 @@ const RecruiterDetails: React.FC<{ onBack: () => void; recruiterId: number }> = 
     const entepriseId = localStorage.getItem("userId");
 
     const URL_RECRUITER_BY_ID = `http://localhost:8080/recruiter/findRecruiterById/${recruiterId}`;
-    const URL_DISABLE_RECRUITER_ACCOUNT = `http://localhost:8080/enterprise/disableRecruiterAccount/enterpriseId/${entepriseId}/recruiterId/${recruiterId}`
-    const URL_ENABLE_RECRUITER_ACCOUNT = `http://localhost:8080/enterprise/enableRecruiterAccount/enterpriseId/${entepriseId}/recruiterId/${recruiterId}`
+    const URL_RESEND_EMAIL_TO_RECRUITER = `http://localhost:8080/recruiter/resendEmailtoRecruiter/${recruiterId}`;
+
+    const URL_DISABLE_RECRUITER_ACCOUNT = `http://localhost:8080/enterprise/disableRecruiterAccount/enterpriseId/${entepriseId}/recruiterId/${recruiterId}`;
+    const URL_ENABLE_RECRUITER_ACCOUNT = `http://localhost:8080/enterprise/enableRecruiterAccount/enterpriseId/${entepriseId}/recruiterId/${recruiterId}`;
+
     const [recruiter, setRecruiter] = useState<RecruiterData | null>(null);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [resendEmail, setResendEmail] = useState(false);
 
     useEffect(() => {
 
@@ -48,6 +54,31 @@ const RecruiterDetails: React.FC<{ onBack: () => void; recruiterId: number }> = 
             console.log("Recrutador habilitado com sucesso.")
         } catch (error) {
             console.log("Erro ao habilitar recrutador.")
+        }
+    }
+
+    const handleClose = (event, reason) => {
+
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpenSnackbar(false);
+    };
+
+    const resendEmailToRecruiter = async () => {
+
+        setLoading(true);
+
+        try {
+            await axios.post(URL_RESEND_EMAIL_TO_RECRUITER)
+
+            setOpenSnackbar(true);
+            setLoading(false);
+            setResendEmail(true);
+        } catch (error) {
+            setOpenSnackbar(true);
+            setLoading(false);
+            setResendEmail(false);
         }
     }
 
@@ -171,12 +202,30 @@ const RecruiterDetails: React.FC<{ onBack: () => void; recruiterId: number }> = 
                 }}
             >
                 {recruiter?.invitationStatus !== 'INATIVO' ?
-                    <Button sx={{ mt: 2, bgcolor: 'fff', color: '#87aa68', border: '1px solid #87aa68' }}>
-                        Reenviar Email
+                    <Button onClick={resendEmailToRecruiter} sx={{ mt: 2, bgcolor: 'fff', color: '#87aa68', border: '1px solid #87aa68' }}>
+                        {loading ? <CircularProgress size={30} sx={{ color: '#87aa68' }}/> : 'Reenviar email'}
                     </Button>
                     :
                     ''
                 }
+
+                <Snackbar
+                    open={openSnackbar}
+                    autoHideDuration={3000}
+                    onClose={handleClose}
+                    anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                >
+
+                    {resendEmail ?
+                        <Alert severity="success" sx={{ width: '100%' }}>
+                            Email enviado com sucesso!
+                        </Alert>
+                        :
+                        <Alert severity="error" sx={{ width: '100%' }}>
+                            Erro ao reenviar email.
+                        </Alert>
+                    }
+                </Snackbar>
 
                 {recruiter?.invitationStatus === 'INATIVO' ?
                     <Button onClick={enableRecruiterAccount} sx={{ mt: 2, bgcolor: 'fff', color: '#87aa68', border: '1px solid #87aa68' }}>

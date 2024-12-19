@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react'
 import InvitationRecruiterData from '../../../types/InvitationRecruiterData';
-import { Box, Button, Divider, TextField, Typography } from '@mui/material';
+import { Alert, Box, Button, CircularProgress, Divider, Snackbar, TextField, Typography } from '@mui/material';
 
 const InvitationRecruiter: React.FC = () => {
 
@@ -10,6 +10,8 @@ const InvitationRecruiter: React.FC = () => {
 
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [sendEmail, setSendEmail] = useState(false);
 
     const [InvitationRecruiter, setInvitationRecruiter] = useState({
         name: "",
@@ -46,9 +48,9 @@ const InvitationRecruiter: React.FC = () => {
 
         try {
             await axios.post<InvitationRecruiterData>(URL_INVITATION_RECRUITER, InvitationRecruiter)
-            console.log("Convite enviado.")
 
             setLoading(false);
+            setSendEmail(true);
 
             setInvitationRecruiter({
                 name: "",
@@ -58,8 +60,9 @@ const InvitationRecruiter: React.FC = () => {
             setErrors({});
             window.location.reload();
         } catch (error) {
-            console.log("Erro ao enviar convite.")
+            setOpenSnackbar(true);
             setLoading(false);
+            setSendEmail(false);
         }
     }
 
@@ -69,6 +72,14 @@ const InvitationRecruiter: React.FC = () => {
             [field]: value,
         }));
         setErrors((prev) => ({ ...prev, [field]: "" }));
+    };
+
+    const handleClose = (event, reason) => {
+
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpenSnackbar(false);
     };
 
 
@@ -89,7 +100,7 @@ const InvitationRecruiter: React.FC = () => {
                 Convidar recrutador
             </Typography>
 
-            <Divider sx={{ backgroundColor: 'rgba(151, 166, 138, 0.47)' }} />
+            <Divider sx={{ borderStyle: 'dashed', borderColor: '#87aa68' }} />
 
             <TextField
                 label="Nome"
@@ -118,8 +129,24 @@ const InvitationRecruiter: React.FC = () => {
                 onClick={handleSubmit}
                 disabled={loading}
             >
-                {loading ? "Enviando..." : "Enviar"}
+                {loading ? <CircularProgress size={30} sx={{ color: '#fff' }} /> : "Enviar"}
             </Button>
+
+            <Snackbar
+                open={openSnackbar}
+                autoHideDuration={3000}
+                onClose={handleClose}
+                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            >
+
+                {!sendEmail ?                 
+                    <Alert severity="error" sx={{ width: '100%' }}>
+                        Erro ao convidar recrutador.
+                    </Alert>
+                    : 
+                    ''
+                }
+            </Snackbar>
         </Box>
     )
 }
