@@ -15,6 +15,7 @@ import DashboardEnterprise from './pages/enterprise/DashboardEnterprise'
 import LoginRecruiterPage from './pages/recruiter/LoginRecruiterPage'
 import AccessProfilePage from './pages/enterprise/AccessProfilePage'
 import VacancyByEnterprisePage from './pages/enterprise/VacancyByEnterprisePage'
+import EnterpriseApplicationsPage from './pages/enterprise/EnterpriseApplicationsPage'
 
 interface RouteConfig {
   path: string;
@@ -41,7 +42,8 @@ function App() {
 
     {path: '/login-enterprise', component: <LoginEnterprisePage />, isProtected: false},
     {path: '/dashboard-enteprise', component: <DashboardEnterprise />, isProtected: true, accountType: ['ENTERPRISE', 'RECRUITER']},
-    {path: '/vacancy-enterprise', component: <VacancyByEnterprisePage />, isProtected: true, accountType: ['ENTERPRISE', 'RECRUITER']},
+    {path: '/vacancies-enterprise', component: <VacancyByEnterprisePage />, isProtected: true, accountType: ['ENTERPRISE', 'RECRUITER']},
+    {path: '/applications-enterprise', component: <EnterpriseApplicationsPage />, isProtected: true, accountType: ['ENTERPRISE', 'RECRUITER']},
     {path: '/access-profile', component: <AccessProfilePage />, isProtected: true, accountType: ['ENTERPRISE']},
 
     // recruiter
