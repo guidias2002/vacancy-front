@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { Vacancy } from "../../../types/VacancyData";
 import axios from "axios";
-import VacancyCard from "./VacancyCard";
-import { CircularProgress } from "@mui/material";
 import '../../../styles/VacancyList.css';
 import Loading from "../../Loading";
+import VacancyCard from "../../VacancyCard";
 
 
 const VacancyList: React.FC = () => {
