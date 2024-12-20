@@ -36,6 +36,7 @@ const ListRecruiterProfile: React.FC<{ onRecruiterClick: (id:number) => void }> 
             flexDirection: 'column',
             justifyContent: 'start',
             width: '70%',
+            height: 'auto'
         }}>
             {recruiterData && recruiterData.length > 0 ?
                 recruiterData.map((profile, index) => (
@@ -44,6 +45,7 @@ const ListRecruiterProfile: React.FC<{ onRecruiterClick: (id:number) => void }> 
                         width: '100%',
                         justifyContent: 'space-between',
                         borderBottom: '1px solid rgba(151, 166, 138, 0.47)',
+                        borderRight: '1px solid rgba(151, 166, 138, 0.47)',
                         padding: '14px',
                         ':hover': {
                             backgroundColor: 'rgba(193, 224, 166, 0.07)',

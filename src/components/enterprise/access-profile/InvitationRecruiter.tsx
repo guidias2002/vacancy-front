@@ -139,7 +139,7 @@ const InvitationRecruiter: React.FC = () => {
                 anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
             >
 
-                {!sendEmail ?                 
+                {sendEmail ?                 
                     <Alert severity="error" sx={{ width: '100%' }}>
                         Erro ao convidar recrutador.
                     </Alert>

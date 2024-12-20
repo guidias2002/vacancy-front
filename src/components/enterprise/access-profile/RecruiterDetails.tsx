@@ -6,7 +6,7 @@ import RecruiterData from '../../../types/RecruiterData';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import CloseIcon from '@mui/icons-material/Close';
 import PersonIcon from '@mui/icons-material/Person';
-import { GoTypography } from 'react-icons/go';
+import ConfirmRecruiterDeactivation from '../access-profile/ConfirmRecruiterDeactivation';
 
 const RecruiterDetails: React.FC<{ onBack: () => void; recruiterId: number }> = ({ onBack, recruiterId }) => {
 
@@ -14,14 +14,13 @@ const RecruiterDetails: React.FC<{ onBack: () => void; recruiterId: number }> = 
 
     const URL_RECRUITER_BY_ID = `http://localhost:8080/recruiter/findRecruiterById/${recruiterId}`;
     const URL_RESEND_EMAIL_TO_RECRUITER = `http://localhost:8080/recruiter/resendEmailtoRecruiter/${recruiterId}`;
-
-    const URL_DISABLE_RECRUITER_ACCOUNT = `http://localhost:8080/enterprise/disableRecruiterAccount/enterpriseId/${entepriseId}/recruiterId/${recruiterId}`;
     const URL_ENABLE_RECRUITER_ACCOUNT = `http://localhost:8080/enterprise/enableRecruiterAccount/enterpriseId/${entepriseId}/recruiterId/${recruiterId}`;
 
     const [recruiter, setRecruiter] = useState<RecruiterData | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [resendEmail, setResendEmail] = useState(false);
+    const [openConfirmRecruiterDeactivation, setOpenConfirmRecruiterDeactivation] = useState(false);
 
     useEffect(() => {
 
@@ -34,17 +33,6 @@ const RecruiterDetails: React.FC<{ onBack: () => void; recruiterId: number }> = 
             ))
 
     }, [recruiterId]);
-
-    const disableRecruiterAccount = async () => {
-
-        try {
-            await axios.put(URL_DISABLE_RECRUITER_ACCOUNT)
-            window.location.reload();
-            console.log("Recrutador desabilitado com sucesso.")
-        } catch (error) {
-            console.log("Erro ao desabilitar recrutador.")
-        }
-    }
 
     const enableRecruiterAccount = async () => {
 
@@ -93,8 +81,8 @@ const RecruiterDetails: React.FC<{ onBack: () => void; recruiterId: number }> = 
                 margin: '20px',
                 borderRadius: '5px',
                 gap: 2,
-                border: '1px solid rgba(151, 166, 138, 0.47)',
-                boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px'
+                border: '1px solid #87aa68',
+                boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
             }}>
 
             <Box
@@ -142,7 +130,7 @@ const RecruiterDetails: React.FC<{ onBack: () => void; recruiterId: number }> = 
                 <Divider sx={{ borderStyle: 'dashed', borderColor: '#87aa68' }} />
 
                 <Box>
-                    <Typography sx={{ fontWeight: 'bold', color: '#545252', fontSize: '11px', marginBottom: '3px' }}>CARGO</Typography>
+                    <Typography sx={{ fontWeight: 'bold', color: '#87aa68', fontSize: '11px', marginBottom: '3px' }}>CARGO</Typography>
                     <Typography>{recruiter?.accountType === 'RECRUITER' ? 'Recrutador' : ''}</Typography>
                 </Box>
 
@@ -154,7 +142,7 @@ const RecruiterDetails: React.FC<{ onBack: () => void; recruiterId: number }> = 
                 >
 
                     <Box>
-                        <Typography sx={{ fontWeight: 'bold', color: '#545252', fontSize: '11px', marginBottom: '3px' }}>EMAIL</Typography>
+                        <Typography sx={{ fontWeight: 'bold', color: '#87aa68', fontSize: '11px', marginBottom: '3px' }}>EMAIL</Typography>
                         <Typography>{recruiter?.email}</Typography>
                     </Box>
 
@@ -183,12 +171,12 @@ const RecruiterDetails: React.FC<{ onBack: () => void; recruiterId: number }> = 
                 </Box>
 
                 <Box>
-                    <Typography sx={{ fontWeight: 'bold', color: '#545252', fontSize: '11px', marginBottom: '3px' }}>CRIADO</Typography>
+                    <Typography sx={{ fontWeight: 'bold', color: '#87aa68', fontSize: '11px', marginBottom: '3px' }}>CRIADO</Typography>
                     <Typography>{new Date(recruiter?.createdAt || '').toLocaleString()}</Typography>
                 </Box>
 
                 <Box>
-                    <Typography sx={{ fontWeight: 'bold', color: '#545252', fontSize: '11px', marginBottom: '3px' }}>ÚLTIMA ATUALIZAÇÃO</Typography>
+                    <Typography sx={{ fontWeight: 'bold', color: '#87aa68', fontSize: '11px', marginBottom: '3px' }}>ÚLTIMA ATUALIZAÇÃO</Typography>
                     <Typography>{new Date(recruiter?.updatedAt || '').toLocaleString()}</Typography>
                 </Box>
 
@@ -203,7 +191,7 @@ const RecruiterDetails: React.FC<{ onBack: () => void; recruiterId: number }> = 
             >
                 {recruiter?.invitationStatus !== 'INATIVO' ?
                     <Button onClick={resendEmailToRecruiter} sx={{ mt: 2, bgcolor: 'fff', color: '#87aa68', border: '1px solid #87aa68' }}>
-                        {loading ? <CircularProgress size={30} sx={{ color: '#87aa68' }}/> : 'Reenviar email'}
+                        {loading ? <CircularProgress size={30} sx={{ color: '#87aa68' }} /> : 'Reenviar email'}
                     </Button>
                     :
                     ''
@@ -232,10 +220,17 @@ const RecruiterDetails: React.FC<{ onBack: () => void; recruiterId: number }> = 
                         Habilitar Recrutador
                     </Button>
                     :
-                    <Button onClick={disableRecruiterAccount} sx={{ mt: 2, bgcolor: 'fff', color: 'red', border: '1px solid red' }}>
+                    <Button onClick={() => setOpenConfirmRecruiterDeactivation(true)} sx={{ mt: 2, bgcolor: 'fff', color: 'red', border: '1px solid red' }}>
                         Desabilitar Recrutador
                     </Button>
+
                 }
+                {openConfirmRecruiterDeactivation ?
+                    <ConfirmRecruiterDeactivation
+                        open={openConfirmRecruiterDeactivation}
+                        id={recruiterId}
+                        setOpen={setOpenConfirmRecruiterDeactivation}
+                    /> : null}
             </Box>
 
         </Box>

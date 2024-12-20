@@ -34,7 +34,7 @@ const AccessProfilePage: React.FC = () => {
 
                 <div className='section-profile-recruiter'>
                     <ListRecruiterProfile onRecruiterClick={handleRecruiterClick} />
-                    <Divider orientation="vertical" flexItem />
+                    <Divider orientation="vertical" flexItem sx={{ height: '100%' }}/>
                     {selectedRecruiter ? (
                         <RecruiterDetails
                             recruiterId={selectedRecruiter}
