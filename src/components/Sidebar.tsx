@@ -31,8 +31,8 @@ const Sidebar = () => {
     : [
       { text: 'INÍCIO', icon: <HomeOutlinedIcon />, path: '/dashboard-enteprise' },
       { text: 'SOBRE', icon: <PersonOutlinedIcon />, path: '' },
-      { text: 'MINHAS VAGAS', icon: <CasesOutlinedIcon />, path: '/vacancy-enterprise' },
-      { text: 'CANDIDATURAS', icon: <AccountTreeOutlinedIcon />, path: '' },
+      { text: 'MINHAS VAGAS', icon: <CasesOutlinedIcon />, path: '/vacancies-enterprise' },
+      { text: 'CANDIDATURAS', icon: <AccountTreeOutlinedIcon />, path: '/applications-enterprise' },
 
       accountType === 'ENTERPRISE' ? { text: 'PERFIS', icon: <GroupOutlinedIcon />, path: '/access-profile' } : '',
     ];
