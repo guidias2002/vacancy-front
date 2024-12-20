@@ -27,4 +27,4 @@ const VacancyByEnterprisePage: React.FC = () => {
     )
 }
 
-export default VacancyByEnterprisePage
+export default VacancyByEnterprisePage;
