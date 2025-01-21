@@ -3,6 +3,7 @@ export interface Vacancy {
     title: string;
     name_enterprise: string;
     level: string;
+    status: string;
     remuneration: string;
     modality: string;
     description: string;

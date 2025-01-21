@@ -9,7 +9,7 @@ import '../../../styles/CandidationApplicationList.css';
 const CandidateApplicationList: React.FC = () => {
   const [applications, setApplications] = useState<Application[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const storedCandidateId = localStorage.getItem("candidateId");
+  const storedCandidateId = localStorage.getItem("userId");
 
   useEffect(() => {
     if (storedCandidateId) {

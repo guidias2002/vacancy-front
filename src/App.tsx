@@ -1,21 +1,24 @@
 import { Route, Routes } from 'react-router-dom'
+import { CssBaseline, ThemeProvider } from '@mui/material'
+import theme from './theme'
+
 import LoginPage from './pages/candidate/LoginPageCandidate'
 import RegisterPage from './pages/candidate/RegisterPageCandidate'
 import HomePage from './pages/HomePage'
 import DashboardCandidate from './pages/candidate/DashboardCandidate'
+import DashboardEnterprise from './pages/enterprise/DashboardEnterprise'
 import ProtectedRoute from './context/ProtectedRoute'
 import ProfilePageCandidate from './pages/candidate/ProfilePageCandidate'
 import VacancyPageCandidate from './pages/candidate/VacancyPageCandidate'
-import ApplicationsPageCandidate from './pages/candidate/ApplicationsPageCandidate'
 import VacancyDetailsPageCandidate from './pages/candidate/VacancyDetailsPageCandidate'
-import { CssBaseline, ThemeProvider } from '@mui/material'
-import theme from './theme'
 import LoginEnterprisePage from './pages/enterprise/LoginEnterprisePage'
-import DashboardEnterprise from './pages/enterprise/DashboardEnterprise'
+import ApplicationsPageCandidate from './pages/candidate/ApplicationsPageCandidate'
 import LoginRecruiterPage from './pages/recruiter/LoginRecruiterPage'
 import AccessProfilePage from './pages/enterprise/AccessProfilePage'
 import VacancyByEnterprisePage from './pages/enterprise/VacancyByEnterprisePage'
 import EnterpriseApplicationsPage from './pages/enterprise/EnterpriseApplicationsPage'
+
+import './index.css'
 
 interface RouteConfig {
   path: string;
