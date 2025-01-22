@@ -13,7 +13,7 @@ import Loading from "../../Loading";
 const VacancyDetails = () => {
 
     const { id } = useParams<{ id: string }>();
-    const candidateId = localStorage.getItem("userId") || "";
+    const candidateId = localStorage.getItem("userId");
 
     const [vacancie, setVacancie] = useState<Vacancy | null>(null);
     const [loading, setLoading] = useState<boolean>(true);

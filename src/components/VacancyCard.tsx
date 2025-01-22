@@ -14,8 +14,6 @@ const VacancyCard: React.FC<VacancyCardProps> = ({ vacancy }) => {
 
     const accountType = localStorage.getItem("accountType");
 
-    console.log(vacancy.status + "aquiiiiiii")
-
     const navigate = useNavigate();
 
     const redirectVacancyDetailsPage = () => {
