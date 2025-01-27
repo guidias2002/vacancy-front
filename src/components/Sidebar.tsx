@@ -30,7 +30,7 @@ const Sidebar = () => {
     ]
     : [
       { text: 'INÍCIO', icon: <HomeOutlinedIcon />, path: '/dashboard-enteprise' },
-      { text: 'SOBRE', icon: <PersonOutlinedIcon />, path: '' },
+      { text: 'SOBRE', icon: <PersonOutlinedIcon />, path: '/about-enterprise' },
       { text: 'MINHAS VAGAS', icon: <CasesOutlinedIcon />, path: '/vacancies-enterprise' },
       { text: 'CANDIDATURAS', icon: <AccountTreeOutlinedIcon />, path: '/applications-enterprise' },
 
