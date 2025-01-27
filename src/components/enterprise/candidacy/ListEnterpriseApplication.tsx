@@ -40,7 +40,7 @@ const ListEnterpriseApplication = () => {
                     {applications && applications.length > 0 ?
                         applications.map(application => (
                             <ApplicationCard key={application.id} application={application} />
-                        )) : 'Nenhuma candidatura encontrada.'
+                        )) : <Typography sx={{ marginTop: '20px' }}>Nenhuma candidatura encontrada.</Typography>
                     }
                 </TableBody>
             </Table>

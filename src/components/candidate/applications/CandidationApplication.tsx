@@ -1,8 +1,9 @@
 import { Application } from "../../../types/ApplicationData";
-import { Divider } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Divider, TableCell, TableRow } from "@mui/material";
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
 import '../../../styles/CandidationApplication.css';
+import { format } from "date-fns";
 
 interface CandidateApplicationsProps {
   application: Application;
@@ -10,22 +11,19 @@ interface CandidateApplicationsProps {
 
 const CandidateApplications: React.FC<CandidateApplicationsProps> = ({ application }) => {
   return (
-
-    <Link to={`/vacancy/${application.vacancyId}`} style={{ textDecoration: 'none', color: 'inherit', height: '200px' }}>
-      <div className="application-details">
-        <div className="field">
-          <h3 className="field-title">{application.vacancyTitle}</h3>
-          <p>{application.enterpriseName}</p>
-          <p>Id da vaga: {application.vacancyId}</p>
-        </div>
-
-        <Divider sx={{ mb: 1 }} />
-
-        <div className="field-date">
-          <p>Data/Hora da candidatura: {new Date(application.createdAt).toLocaleString()}</p>
-        </div>
-      </div>
-    </Link>
+    <TableRow sx={{
+      ":hover": {
+        cursor: 'pointer',
+        backgroundColor: 'rgba(193, 224, 166, 0.07)'
+      }
+    }}
+      key={application.id}>
+      <TableCell>{application.vacancyId}</TableCell>
+      <TableCell>{application.enterpriseName}</TableCell>
+      <TableCell>{application.vacancyTitle}</TableCell>
+      <TableCell>{format(new Date(application.createdAt), "dd/MM/yyyy, HH:mm:ss")}</TableCell>
+      <TableCell align='right'><KeyboardArrowRightIcon /></TableCell>
+    </TableRow>
   );
 }
 
