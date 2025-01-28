@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react"
 import { EnterpriseData } from "../../../types/EnterpriseData";
-import { Typography } from "@mui/material";
 
 
 const AboutEnterprise = () => {
@@ -14,21 +13,48 @@ const AboutEnterprise = () => {
         axios.get<EnterpriseData>(URL_ENTERPRISE_BY_ID)
             .then((response) => {
                 setEnteprise(response.data);
-            })
+            }) 
             .catch((error) => {
-                console.log('Erro ao buscar empresa')
+                console.log('Erro ao buscar empresa', error)
             })
-    }, [enterpriseId]);
+     }, [enterpriseId]);
 
     return (
         <div>
             {enterprise ?
-                <div>
-                    <p>{enterprise.linkedin}</p>
-                    <p>{enterprise.cnpj}</p>
-                    <p>{enterprise.name}</p>
-                    <p>{enterprise.createdAt}</p>
-                    <p>{enterprise.linkedin}</p>
+                <div className='w-[700px] grid gap-4'>
+                    <div className="flex justify-between">
+                        <div>
+                            <p className="font-[500]">Nome</p>
+                            <p>{enterprise.name}</p>
+                        </div>
+
+                        <div>
+                            <p className="font-[500]">CNPJ</p>
+                            <p>{enterprise.cnpj}</p>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <p className="font-[500]">Setor</p>
+                        <p>{enterprise.aboutCompany?.sector}</p>
+                    </div>
+
+                    <div>
+                        <p className="font-[500]">Email</p>
+                        <p>{enterprise.email}</p>
+                    </div>
+
+                    <div>
+                        <p className="font-[500]">Quem somos</p>
+                        <p>{enterprise.aboutCompany?.about}</p>
+                    </div>
+
+                    <div>
+                        <p className="font-[500]">Linkedin</p>
+                        <p>{enterprise.aboutCompany?.linkedin}</p>
+                    </div>
+                    
                 </div>
                 :
                 <p>Os dados ainda não foram preenchidos</p>

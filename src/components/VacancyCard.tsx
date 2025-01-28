@@ -22,10 +22,9 @@ const VacancyCard: React.FC<VacancyCardProps> = ({ vacancy }) => {
 
     return (
         <div
-        className='flex flex-col border border-gray-300 rounded-[14px] p-5 bg-white shadow-md box-border h-[250px] justify-evenly font-montserrat hover:cursor-pointer hover:shadow-lg hover:-translate-y-1 transition-all duration-300'
+            className='w-full flex flex-col border border-gray-300 rounded-[14px] p-5 bg-white shadow-md box-border h-[250px] justify-evenly font-montserrat hover:cursor-pointer hover:shadow-lg hover:-translate-y-1 transition-all duration-300'
             onClick={redirectVacancyDetailsPage}
         >
-
 
             <div className='flex flex-col'>
                 <p className='text-base font-bold'>{vacancy.title}</p>
@@ -65,9 +64,9 @@ const VacancyCard: React.FC<VacancyCardProps> = ({ vacancy }) => {
                 <p className='text-sm'>{new Date(vacancy.createdAt).toLocaleDateString('pt-BR')}</p>
             </div>
 
-            {accountType === 'ENTERPRISE' ? 
-            <p>{vacancy.status}</p> 
-            : null}
+            {accountType === 'ENTERPRISE' ?
+                <p>{vacancy.status}</p>
+                : null}
         </div>
     )
 }
