@@ -1,3 +1,5 @@
+import { AboutCompany } from "./AboutCompany";
+
 export interface EnterpriseData {
     id: number;
     name: string;
@@ -6,10 +8,5 @@ export interface EnterpriseData {
     email: string;
     password: string;
     accountType: "ENTERPRISE";
-    createdAt: string;
-    about: string;
-    sector: string;
-    linkedin: string;
-    webSite: string;
-    enterpriseId: number;
+    aboutCompany: AboutCompany | null;
 }
