@@ -9,6 +9,7 @@ export default {
       colors: {
         'sub-title': '#636362',
         'color-gray': '#f9f9f9',
+        'color-table-row': 'rgba(193, 224, 166, 0.07)'
       }
     },
   },

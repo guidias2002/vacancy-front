@@ -16,6 +16,7 @@ const Sidebar = () => {
   const location = useLocation();
 
   const accountType = localStorage.getItem('accountType');
+  const userId = localStorage.getItem('userId');
 
   const handleLogout = () => {
     auth.logout();
@@ -30,7 +31,7 @@ const Sidebar = () => {
     ]
     : [
       { text: 'INÍCIO', icon: <HomeOutlinedIcon />, path: '/dashboard-enteprise' },
-      { text: 'SOBRE', icon: <PersonOutlinedIcon />, path: '/about-enterprise' },
+      { text: 'SOBRE', icon: <PersonOutlinedIcon />, path: `/about-enterprise/${userId}` },
       { text: 'MINHAS VAGAS', icon: <CasesOutlinedIcon />, path: '/vacancies-enterprise' },
       { text: 'CANDIDATURAS', icon: <AccountTreeOutlinedIcon />, path: '/applications-enterprise' },
 

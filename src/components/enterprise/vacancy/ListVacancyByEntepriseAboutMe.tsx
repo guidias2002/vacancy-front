@@ -47,55 +47,36 @@ const ListVacancyByEnterpriseAboutMe: React.FC<ListVacancyByEnterpriseProps> = (
     };
 
     return (
-        <div className='grid gap-2'>
-            <p className="font-[500] text-[22px]">Algumas oportunidades na </p>
-            <Box sx={{ maxWidth: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 3 }}>
+        <div className='grid gap-6'>
+            <p className="font-[500] text-[22px]">Confira algumas vagas disponíveis:</p>
+            {displayedVacancies.length > 0 ? (
+                <div className='max-w-full flex justify-center items-center gap-4'>
 
-                <IconButton
-                    onClick={handlePreviousPage}
-                    disabled={currentPage === 0}
-                    sx={{
-                        zIndex: 10,
-                        backgroundColor: 'white',
-                        boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
-                        '&:hover': { backgroundColor: '#f0f0f0' },
-                        '&:disabled': { backgroundColor: '#e0e0e0', color: '#a0a0a0' },
-                    }}
-                >
-                    <ArrowBackIosNewIcon />
-                </IconButton>
+                    <IconButton
+                        onClick={handlePreviousPage}
+                        className="bg-white shadow-md hover:bg-gray-100 disabled:bg-gray-200 disabled:text-gray-400 rounded-full p-2 h-10 w-10 flex items-center justify-center"
+                    >
+                        <ArrowBackIosNewIcon />
+                    </IconButton>
 
-                <Box
-                    sx={{
-                        display: 'flex',
-                        gap: 2,
-                        width: '100%'
-                    }}
-                >
-
-                    {displayedVacancies.length > 0 ? (
-                        displayedVacancies.map((vacancy) => (
+                    <div className='flex w-full gap-2'>
+                        {displayedVacancies.map((vacancy) => (
                             <VacancyCard key={vacancy.id} vacancy={vacancy} />
-                        ))
-                    ) : (
-                        <Typography>Nenhuma vaga encontrada.</Typography>
-                    )}
-                </Box>
+                        ))}
+                    </div>
 
-                <IconButton
-                    onClick={handleNextPage}
-                    disabled={endIndex >= vacancies.length}
-                    sx={{
-                        zIndex: 10,
-                        backgroundColor: 'white',
-                        boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
-                        '&:hover': { backgroundColor: '#f0f0f0' },
-                        '&:disabled': { backgroundColor: '#e0e0e0', color: '#a0a0a0' },
-                    }}
-                >
-                    <ArrowForwardIosIcon />
-                </IconButton>
-            </Box>
+                    <IconButton
+                        className="bg-white shadow-md hover:bg-gray-100 disabled:bg-gray-200 disabled:text-gray-400 rounded-full p-2 h-10 w-10 flex items-center justify-center"
+                        onClick={handleNextPage}
+                        disabled={endIndex >= vacancies.length}
+                    >
+                        <ArrowForwardIosIcon />
+                    </IconButton>
+
+                </div>
+            ) : (
+                <p>Nenhuma vaga encontrada.</p>
+            )}
         </div>
     );
 };

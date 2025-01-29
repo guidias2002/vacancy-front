@@ -39,7 +39,7 @@ function App() {
     { path: '/dashboard-candidate', component: <DashboardCandidate />, isProtected: true, accountType: ['CANDIDATE'] },
     { path: '/profile-candidate', component: <ProfilePageCandidate />, isProtected: true, accountType: ['CANDIDATE'] },
     { path: '/vacancy', component: <VacancyPageCandidate />, isProtected: true, accountType: ['CANDIDATE'] },
-    { path: '/vacancy/:id', component: <VacancyDetailsPageCandidate />, isProtected: true, accountType: ['CANDIDATE', 'ENTERPRISE'] },
+    { path: '/vacancyDetails/:id', component: <VacancyDetailsPageCandidate />, isProtected: true, accountType: ['CANDIDATE', 'ENTERPRISE'] },
     { path: '/my-applications', component: <ApplicationsPageCandidate />, isProtected: true, accountType: ['CANDIDATE'] },
 
     // enterprise

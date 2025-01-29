@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Vacancy } from "../../../types/VacancyData";
 import ButtonCandidacy from "./ButtonCandidacy";
 import { FaBriefcase, FaMoneyBill } from 'react-icons/fa';
@@ -63,7 +63,7 @@ const VacancyDetails = () => {
 
                     <div>
                         <p>Empresa</p>
-                        <p>{vacancie.name_enterprise}</p>
+                        <Link to={`/about-enterprise/${vacancie.enterpriseId}`}>{vacancie.name_enterprise}</Link>
                     </div>
 
                     <div>

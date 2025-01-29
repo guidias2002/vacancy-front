@@ -6,6 +6,7 @@ import CandidationApplication from "./CandidationApplication";
 import Loading from "../../Loading";
 import '../../../styles/CandidationApplicationList.css';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const CandidateApplicationList: React.FC = () => {
   const [applications, setApplications] = useState<Application[]>([]);
@@ -50,7 +51,7 @@ const CandidateApplicationList: React.FC = () => {
         <TableBody sx={{ width: '100%' }}>
           {applications && applications.length > 0 ?
             applications.map(application => (
-              <CandidationApplication key={application.id} application={application} />
+                <CandidationApplication key={application.id} application={application} />
             )) : <Typography sx={{ marginTop: '20px' }}>Nenhuma candidatura encontrada.</Typography>
           }
         </TableBody>

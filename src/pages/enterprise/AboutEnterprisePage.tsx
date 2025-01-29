@@ -9,7 +9,7 @@ const AboutEnterprisePage = () => {
 
 
   return (
-    <div className='w-full flex bg-color-gray p-10 h-full font-montserrat'>
+    <div className='w-full flex bg-color-gray p-10 h-screen font-montserrat'>
       <Sidebar />
 
       <div className='grid w-full gap-4'>
@@ -19,6 +19,7 @@ const AboutEnterprisePage = () => {
         />
         <Divider />
         <AboutEnterprise />
+        <Divider />
         <ListVacancyByEnterpriseAboutMe maxVacancies={3} />
       </div>
 
