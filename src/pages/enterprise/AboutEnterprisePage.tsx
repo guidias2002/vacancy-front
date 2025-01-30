@@ -9,10 +9,10 @@ const AboutEnterprisePage = () => {
 
 
   return (
-    <div className='w-full flex bg-color-gray p-10 h-screen font-montserrat'>
+    <div className='w-full h-screen flex justify-start bg-color-gray p-10 font-montserrat'>
       <Sidebar />
 
-      <div className='grid w-full gap-4'>
+      <div className='grid flex-1 w-full gap-4'>
         <Title
           title='Sobre a empresa'
           subTitle='Informações gerais sobre a empresa'

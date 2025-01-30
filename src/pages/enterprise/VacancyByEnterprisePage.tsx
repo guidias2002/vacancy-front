@@ -13,15 +13,18 @@ const VacancyByEnterprisePage: React.FC = () => {
             bgcolor: '#fff',
             width: '100%',
             padding: '40px',
-            
+
         }}>
 
             <Sidebar />
 
             <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', gap: 4 }}>
-                <Title title='Minhas Vagas' subTitle='Todas as vagas da empresa estão aqui'/>
-                <Divider/>
-                <ListVacancyByEnterprise/>
+                <Title title='Minhas Vagas' subTitle='Todas as vagas da empresa estão aqui' />
+
+                <div>
+                    <Divider />
+                    <ListVacancyByEnterprise />
+                </div>
             </Box>
         </Box >
     )
